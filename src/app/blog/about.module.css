@@ -1,0 +1,10 @@
+/* divider style starts */
+.dividerStyle {
+    margin-top: 15px !important;
+}
+.dividerHeader {
+    font-size: var(--divider-font-size);
+    padding: 5px;
+    color: var(--default-primary-color);
+}
+/* divider style ends */

@@ -1,0 +1,16 @@
+/* project section style starts */
+.cardImage {
+    height: 150px !important;
+    overflow: hidden;
+}
+.projectCard {
+    display: flex !important;
+    flex-direction: column;
+}
+.cardDetail h2 {
+    font-size: 24px;
+}
+.cardDetail p {
+    color: var(--default-paragraph-color);
+}
+/* project section style ends */
