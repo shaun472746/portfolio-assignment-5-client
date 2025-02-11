@@ -6,12 +6,15 @@ import {
     DiffFilled,
     FolderFilled,
     HomeFilled,
+    LogoutOutlined,
     ProjectFilled,
 } from '@ant-design/icons';
 import { Menu, MenuProps, ConfigProvider, theme } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { BlogPageProps } from '@/types';
+import { signOut } from 'next-auth/react';
 
 type MenuItem = Required<MenuProps>['items'][number] & { route: string };
 const items: MenuItem[] = [
@@ -53,26 +56,59 @@ const dashboardItems: MenuItem[] = [
         label: 'Dashboard',
         key: 'dashboard',
         icon: <DashboardFilled />,
-        route: '/dashboard',
+        route: '/dashboard/blog',
+    },
+    {
+        label: 'Log Out',
+        key: 'logout',
+        icon: <LogoutOutlined />,
+        route: '/',
     },
 ];
 
-const routeObject: Record<string, string> = {};
-const createRouteObject = (routes: MenuItem[]) => {
-    routes.forEach((item: MenuItem) => {
-        routeObject[`${item.key}`] = item.route;
-    });
-};
-
-const NavBar: React.FC = () => {
+export default function NavBar({ session }: BlogPageProps) {
     const router = useRouter();
-    const [count, setCount] = useState(0);
+    const [routes, setRoutes] = useState<MenuItem[]>([]);
+    const [routeObject, setRouteObject] = useState<Record<string, string>>({});
+    const [currentPage, setCurrentPage] = useState<string>('');
 
-    const routes: MenuItem[] = [...items, ...loginItems];
-    createRouteObject(routes);
+    useEffect(() => {
+        let routeList = [];
+        if (session) {
+            routeList = [...items, ...dashboardItems];
+        } else {
+            routeList = [...items, ...loginItems];
+        }
+        setRoutes(routeList);
+        setRouteObject(() => {
+            const newObj: Record<string, string> = {};
+
+            routeList.forEach((item: MenuItem) => {
+                newObj[`${item.key}`] = item.route;
+            });
+
+            return newObj;
+        });
+        if (typeof window !== 'undefined') {
+            const currentNavItem = routeList.find(
+                (item) => item.route == window.location.pathname
+            );
+
+            if (currentNavItem) {
+                setCurrentPage(currentNavItem.key as string);
+            } else {
+                setCurrentPage('home');
+                router.push('/');
+            }
+        }
+    }, [session]);
+
     const onClick: MenuProps['onClick'] = (e) => {
         document.title = e.key;
 
+        if (e.key == 'logout') {
+            signOut();
+        }
         router.push(routeObject[e.key]);
     };
 
@@ -96,21 +132,21 @@ const NavBar: React.FC = () => {
                 },
             }}
         >
-            <Menu
-                mode="horizontal"
-                onClick={onClick}
-                defaultSelectedKeys={['mail']}
-                items={routes}
-                style={{
-                    flex: 1,
-                    minWidth: 0,
-                    justifyContent: 'end',
-                    width: '100%',
-                    background: '#fff',
-                }}
-            />
+            {currentPage && (
+                <Menu
+                    mode="horizontal"
+                    onClick={onClick}
+                    defaultSelectedKeys={[currentPage]}
+                    items={routes}
+                    style={{
+                        flex: 1,
+                        minWidth: 0,
+                        justifyContent: 'end',
+                        width: '100%',
+                        background: '#fff',
+                    }}
+                />
+            )}
         </ConfigProvider>
     );
-};
-
-export default NavBar;
+}

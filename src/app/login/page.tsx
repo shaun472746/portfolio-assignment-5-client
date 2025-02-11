@@ -2,6 +2,7 @@
 
 import { GithubFilled, GoogleCircleFilled } from '@ant-design/icons';
 import { Button, Card, Form, FormProps, Input } from 'antd';
+import { signIn } from 'next-auth/react';
 
 type FieldType = {
     email?: string;
@@ -63,6 +64,11 @@ const LoginPage: React.FC = () => {
                             <Button
                                 className="default-btn-class"
                                 htmlType="submit"
+                                onClick={() =>
+                                    signIn('github', {
+                                        callbackUrl: `http://localhost:3000/dashboard/blog`,
+                                    })
+                                }
                             >
                                 <GithubFilled /> Login With Github
                             </Button>
