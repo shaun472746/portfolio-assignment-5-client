@@ -6,6 +6,7 @@ import {
     Drawer,
     Form,
     FormProps,
+    Image,
     Input,
     Row,
     Select,
@@ -18,13 +19,15 @@ import {
     UploadProps,
 } from 'antd';
 import '../../assets/root.css';
+import './assets/blogManagement.css';
 import { BlogPageProps, TBlog } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
+import { Toaster,toast } from 'sonner';
 
-import { useCreateBlogMutation } from '@/redux/features/blogs/blog.api';
+import { useCreateBlogMutation,useGetBlogsQuery } from '@/redux/features/blogs/blog.api';
 
 
 export default function BlogPage({ session }: BlogPageProps) {
@@ -32,6 +35,7 @@ export default function BlogPage({ session }: BlogPageProps) {
     const [form] = Form.useForm<Partial<TBlog>>();
 
     const [fileList, setFileList] = useState<UploadFile[]>();
+    let toastId:number|string = 0;
 
     /**
      * oauth related methods and state
@@ -40,6 +44,7 @@ export default function BlogPage({ session }: BlogPageProps) {
     /**
      * create new blog methods
      */
+
     const [createBlog] = useCreateBlogMutation();
     const showDrawer = () => {
         setOpen(true);
@@ -89,8 +94,11 @@ export default function BlogPage({ session }: BlogPageProps) {
         onChange: handleChange,
     };
 
-    const onFinish: FormProps<Partial<TBlog>>['onFinish'] = (values) => {
+    const onFinish: FormProps<Partial<TBlog>>['onFinish'] = async (values) => {
         try {
+            toastId = toast.loading("...blog creating",{id:toastId});
+
+
             const formData = new FormData();
 
             fileList?.forEach((file) => {
@@ -99,8 +107,14 @@ export default function BlogPage({ session }: BlogPageProps) {
                 }
             });
             formData.append('data', JSON.stringify(values));
-
-            createBlog(formData);
+            
+            const res = await createBlog(formData);
+           
+            if(res.data?.data?.statusCode == 200){
+                toastId = toast.success(res.data?.message,{id:toastId});
+            }else{
+                toast.error(res.data?.message,{id: toastId});
+            }
             onClose();
         } catch (err) {
             console.log(err);
@@ -113,6 +127,12 @@ export default function BlogPage({ session }: BlogPageProps) {
     const deleteBlog = (data: Partial<TBlog>) => {
         console.log(data);
     };
+    const {data,isLoading,isSuccess} = useGetBlogsQuery(undefined);
+
+    if(isSuccess){
+        
+        toast.success('Blogs retrieved successfully',{id:toastId});
+    }
     const columns: TableProps<Partial<TBlog>>['columns'] = [
         {
             title: 'Title',
@@ -123,6 +143,8 @@ export default function BlogPage({ session }: BlogPageProps) {
                     <h4 style={{ margin: 0, padding: 0 }}>{title}</h4>
                 </div>
             ),
+            width: "25%"
+
         },
         {
             title: 'Category',
@@ -137,11 +159,16 @@ export default function BlogPage({ session }: BlogPageProps) {
                     }
                 </>
             ),
+            width: "25%"
         },
         {
             title: 'Image',
             dataIndex: 'image',
             key: '3',
+            render:(_,{image})=> (
+                <Image src={image} style={{height:"80px"}}  />
+            ),
+            width: "25%"
         },
         {
             title: 'Action',
@@ -157,11 +184,13 @@ export default function BlogPage({ session }: BlogPageProps) {
                     </Button>
                 </Space>
             ),
+            width: "25%"
         },
     ];
 
     return (
         <div>
+            <Toaster />
             <Button
                 className="default-btn-class"
                 onClick={createNewProduct}
@@ -171,9 +200,10 @@ export default function BlogPage({ session }: BlogPageProps) {
                 Create New
             </Button>
             <Table<Partial<TBlog>>
+                className="blog-table"
                 columns={columns}
-                // loading={isFetching}
-                dataSource={[] as readonly TBlog[]}
+                loading={isLoading}
+                dataSource={data?.data as readonly TBlog[]}
                 rowKey="_id"
             />
             <Drawer
