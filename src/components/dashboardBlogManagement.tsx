@@ -22,7 +22,7 @@ import '../../assets/root.css';
 import './assets/blogManagement.css';
 import { BlogPageProps, TBlog } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
 import { Toaster, toast } from 'sonner';
@@ -44,6 +44,7 @@ export default function BlogPage({
     const [form] = Form.useForm<Partial<TBlog>>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<TBlog> | null>(null);
+    const [blogs,setBlogs] = useState<{data:TBlog[]}>(blogData);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
     let toastId: number | string = 0;
@@ -55,6 +56,10 @@ export default function BlogPage({
     /**
      * create new Or update blog methods
      */
+    const {data,isLoading} = useGetBlogsQuery(undefined)
+    useEffect(()=>{
+        setBlogs(data);
+    },[data])
 
     const [createBlog] = useCreateBlogMutation();
     const [updateBlog] = useUpdateBlogMutation();
@@ -254,7 +259,8 @@ export default function BlogPage({
             <Table<Partial<TBlog>>
                 className="blog-table"
                 columns={columns}
-                dataSource={blogData?.data as readonly TBlog[]}
+                loading={isLoading}
+                dataSource={blogs?.data as readonly TBlog[]}
                 rowKey="_id"
             />
             <Drawer

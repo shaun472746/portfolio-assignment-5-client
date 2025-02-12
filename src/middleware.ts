@@ -8,13 +8,17 @@ export async function middleware(request: NextRequest) {
     req: request,
     secret: process.env.NEXTAUTH_SECRET,
    });
-   if (!token) {
+   const { pathname } = request.nextUrl;
+   if (!token && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.url));
    }
+   if (token && pathname === "/login") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
   return NextResponse.next();
 }
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: '/dashboard/:path*',
+  matcher: ['/dashboard/:path*','/login'],
 }

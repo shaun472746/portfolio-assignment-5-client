@@ -22,7 +22,7 @@ import '../../assets/root.css';
 import './assets/projectManagement.css';
 import { TProject } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
 import { Toaster, toast } from 'sonner';
@@ -43,6 +43,7 @@ export default function ProjectPage({
     const [form] = Form.useForm<Partial<TProject>>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<TProject> | null>(null);
+    const [prjData,setProjectData] = useState<TProject[]>(projectData);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
     let toastId: number | string = 0;
@@ -54,6 +55,11 @@ export default function ProjectPage({
     /**
      * create new Or update project methods
      */
+    const {data:{data:projects}=[]} = useGetProjectsQuery(undefined);
+    useEffect(()=>{
+        setProjectData(projects);
+    },[projects])
+
 
     const [createProject] = useCreateProjectMutation();
     const [updateProject] = useUpdateProjectMutation();
@@ -243,7 +249,7 @@ export default function ProjectPage({
             <Table<Partial<TProject>>
                 className="project-table"
                 columns={columns}
-                dataSource={projectData as readonly TProject[]}
+                dataSource={prjData as readonly TProject[]}
                 rowKey="_id"
             />
             <Drawer
