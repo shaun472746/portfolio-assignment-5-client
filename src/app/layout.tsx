@@ -4,6 +4,8 @@ import NavBar from '@/components/navigationBar';
 import Providers from '@/redux/providerComponent';
 import { getServerSession, Session } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -21,10 +23,12 @@ export default async function RootLayout({
         <html lang="en">
             <body>
                 <Providers>
-                    <div className="default-margin-body">
-                        <NavBar session={session} />
-                    </div>
-                    {children}
+                    <Suspense fallback={<Loading />}>
+                        <div className="default-margin-body">
+                            <NavBar session={session} />
+                        </div>
+                        {children}
+                    </Suspense>
                 </Providers>
             </body>
         </html>

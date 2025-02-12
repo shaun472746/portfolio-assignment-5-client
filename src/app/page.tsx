@@ -12,7 +12,6 @@ import {
     Progress,
     Divider,
     ConfigProvider,
-    theme,
 } from 'antd';
 
 export default function Home() {

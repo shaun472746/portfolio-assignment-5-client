@@ -34,7 +34,11 @@ import {
     useGetProjectsQuery,
 } from '@/redux/features/projects/project.api';
 
-export default function ProjectPage() {
+export default function ProjectPage({
+    projectData,
+}: {
+    projectData: TProject[];
+}) {
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm<Partial<TProject>>();
     const [editMode, setEditMode] = useState<boolean>(false);
@@ -173,11 +177,11 @@ export default function ProjectPage() {
         setEditData(rowData);
         showDrawer();
     };
-    const { data, isLoading, isSuccess } = useGetProjectsQuery(undefined);
+    // const { data, isLoading, isSuccess } = useGetProjectsQuery(undefined);
 
-    if (isSuccess) {
-        toast.success('Projects retrieved successfully', { id: toastId });
-    }
+    // if (isSuccess) {
+    //     toast.success('Projects retrieved successfully', { id: toastId });
+    // }
     const columns: TableProps<Partial<TProject>>['columns'] = [
         {
             title: 'Title',
@@ -239,8 +243,7 @@ export default function ProjectPage() {
             <Table<Partial<TProject>>
                 className="project-table"
                 columns={columns}
-                loading={isLoading}
-                dataSource={data?.data as readonly TProject[]}
+                dataSource={projectData as readonly TProject[]}
                 rowKey="_id"
             />
             <Drawer

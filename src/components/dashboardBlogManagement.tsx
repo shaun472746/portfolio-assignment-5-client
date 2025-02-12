@@ -34,8 +34,13 @@ import {
     useUpdateBlogMutation,
 } from '@/redux/features/blogs/blog.api';
 
-export default function BlogPage({ session }: BlogPageProps) {
+export default function BlogPage({
+    blogData,
+}: {
+    blogData: { data: TBlog[] };
+}) {
     const [open, setOpen] = useState(false);
+
     const [form] = Form.useForm<Partial<TBlog>>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<TBlog> | null>(null);
@@ -169,11 +174,11 @@ export default function BlogPage({ session }: BlogPageProps) {
         setEditData(rowData);
         showDrawer();
     };
-    const { data, isLoading, isSuccess } = useGetBlogsQuery(undefined);
+    // const { data, isLoading, isSuccess } = useGetBlogsQuery(undefined);
 
-    if (isSuccess) {
-        toast.success('Blogs retrieved successfully', { id: toastId });
-    }
+    // if (isSuccess) {
+    //     toast.success('Blogs retrieved successfully', { id: toastId });
+    // }
     const columns: TableProps<Partial<TBlog>>['columns'] = [
         {
             title: 'Title',
@@ -249,8 +254,7 @@ export default function BlogPage({ session }: BlogPageProps) {
             <Table<Partial<TBlog>>
                 className="blog-table"
                 columns={columns}
-                loading={isLoading}
-                dataSource={data?.data as readonly TBlog[]}
+                dataSource={blogData?.data as readonly TBlog[]}
                 rowKey="_id"
             />
             <Drawer

@@ -56,6 +56,7 @@ const LoginPage: React.FC = () => {
                             <Button
                                 className="default-btn-class"
                                 htmlType="submit"
+                                onClick={()=> signIn('google',{callbackUrl:'http://localhost:3000/'})}
                             >
                                 <GoogleCircleFilled /> Login With Google
                             </Button>
@@ -66,7 +67,7 @@ const LoginPage: React.FC = () => {
                                 htmlType="submit"
                                 onClick={() =>
                                     signIn('github', {
-                                        callbackUrl: `http://localhost:3000/dashboard/blog`,
+                                        callbackUrl: `http://localhost:3000/`,
                                     })
                                 }
                             >

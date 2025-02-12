@@ -129,3 +129,8 @@
 }
 
 /* project section ends */
+
+.loadingPage {
+    width: 100% !important;
+    height: 100vh !important;
+}

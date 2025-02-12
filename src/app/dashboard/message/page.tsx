@@ -1,9 +1,18 @@
+import MessagePage from '@/components/dashboardMessageManagement';
 import '../../../../assets/root.css';
 
-export default function MessageManagement() {
+async function getData() {
+    const res = await fetch('http://localhost:5000/api/message', {
+        cache: 'force-cache',
+    });
+    return res.json();
+}
+
+export default async function MessageManagement() {
+    const messageData = await getData();
     return (
         <div>
-            <h1>Message Content</h1>
+            <MessagePage messageData={messageData.data} />
         </div>
     );
 }

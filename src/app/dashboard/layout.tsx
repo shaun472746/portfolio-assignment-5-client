@@ -3,9 +3,10 @@ import '../../../assets/root.css';
 import { Col, Divider, Row } from 'antd';
 import DashboardNav from '@/components/dashboardNav';
 import styles from './dashboardLayout.module.css';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { getServerSession, Session } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
+import Loading from './loading';
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -42,7 +43,7 @@ export default async function RootLayout({
                     xl={18}
                     className="gutter-row"
                 >
-                    {children}
+                    <Suspense fallback={<Loading />}>{children}</Suspense>
                 </Col>
             </Row>
         </div>

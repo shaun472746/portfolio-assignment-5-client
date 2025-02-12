@@ -1,0 +1,8 @@
+.message-block p {
+    margin: 0 !important;
+    text-align: justify;
+}
+.message-block .header {
+    color: var(--default-primary-color);
+    font-weight: 700;
+}

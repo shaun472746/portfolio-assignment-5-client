@@ -1,70 +1,19 @@
 'use client';
 
-import {
-    ContactsFilled,
-    DashboardFilled,
-    DiffFilled,
-    FolderFilled,
-    HomeFilled,
-    LogoutOutlined,
-    ProjectFilled,
-} from '@ant-design/icons';
 import { Menu, MenuProps, ConfigProvider, theme } from 'antd';
-import MenuItem from 'antd/es/menu/MenuItem';
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { BlogPageProps } from '@/types';
 import { signOut } from 'next-auth/react';
-
-type MenuItem = Required<MenuProps>['items'][number] & { route: string };
-const items: MenuItem[] = [
-    {
-        label: 'Home',
-        key: 'home',
-        icon: <HomeFilled />,
-        route: '/',
-    },
-    {
-        label: 'Blog Page',
-        key: 'blog',
-        icon: <FolderFilled />,
-        route: '/blog',
-    },
-    {
-        label: 'Projects',
-        key: 'projects',
-        icon: <ProjectFilled />,
-        route: '/projects',
-    },
-    {
-        label: 'Contact',
-        key: 'contact',
-        icon: <ContactsFilled />,
-        route: '/contact',
-    },
-];
-const loginItems: MenuItem[] = [
-    {
-        label: 'Login',
-        key: 'login',
-        icon: <DiffFilled />,
-        route: '/login',
-    },
-];
-const dashboardItems: MenuItem[] = [
-    {
-        label: 'Dashboard',
-        key: 'dashboard',
-        icon: <DashboardFilled />,
-        route: '/dashboard/blog',
-    },
-    {
-        label: 'Log Out',
-        key: 'logout',
-        icon: <LogoutOutlined />,
-        route: '/',
-    },
-];
+import {
+    authorizedRoutes,
+    currentKeyObject,
+    loginRoutes,
+    MenuItem,
+    newAuthorizedPaths,
+    newLoginPaths,
+} from '@/utils/navRoutes';
 
 export default function NavBar({ session }: BlogPageProps) {
     const router = useRouter();
@@ -73,33 +22,22 @@ export default function NavBar({ session }: BlogPageProps) {
     const [currentPage, setCurrentPage] = useState<string>('');
 
     useEffect(() => {
-        let routeList = [];
         if (session) {
-            routeList = [...items, ...dashboardItems];
+            setRoutes(authorizedRoutes);
+            setRouteObject(() => {
+                return newAuthorizedPaths;
+            });
         } else {
-            routeList = [...items, ...loginItems];
-        }
-        setRoutes(routeList);
-        setRouteObject(() => {
-            const newObj: Record<string, string> = {};
-
-            routeList.forEach((item: MenuItem) => {
-                newObj[`${item.key}`] = item.route;
+            setRoutes(loginRoutes);
+            setRouteObject(() => {
+                return newLoginPaths;
             });
 
-            return newObj;
-        });
-        if (typeof window !== 'undefined') {
-            const currentNavItem = routeList.find(
-                (item) => item.route == window.location.pathname
-            );
 
-            if (currentNavItem) {
-                setCurrentPage(currentNavItem.key as string);
-            } else {
-                setCurrentPage('home');
-                router.push('/');
-            }
+        }
+
+        if (typeof window !== 'undefined') {
+            setCurrentPage(window.location.pathname);
         }
     }, [session]);
 
@@ -108,8 +46,9 @@ export default function NavBar({ session }: BlogPageProps) {
 
         if (e.key == 'logout') {
             signOut();
+        } else {
+            router.push(routeObject[e.key]);
         }
-        router.push(routeObject[e.key]);
     };
 
     return (
@@ -136,7 +75,7 @@ export default function NavBar({ session }: BlogPageProps) {
                 <Menu
                     mode="horizontal"
                     onClick={onClick}
-                    defaultSelectedKeys={[currentPage]}
+                    defaultSelectedKeys={[currentKeyObject[currentPage]]}
                     items={routes}
                     style={{
                         flex: 1,
