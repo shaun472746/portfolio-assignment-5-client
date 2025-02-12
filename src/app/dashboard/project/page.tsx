@@ -1,9 +1,10 @@
 import '../../../../assets/root.css';
+import ProjectPage from '@/components/dashboardProjectManagement';
 
 export default function ProjectManagement() {
     return (
         <div>
-            <h1>Project Content</h1>
+            <ProjectPage />
         </div>
     );
 }

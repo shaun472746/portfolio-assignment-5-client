@@ -19,22 +19,22 @@ import {
     UploadProps,
 } from 'antd';
 import '../../assets/root.css';
-import './assets/blogManagement.css';
-import { BlogPageProps, TBlog } from '@/types';
+import './assets/projectManagement.css';
+import { TProject } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
 import { Toaster,toast } from 'sonner';
 
-import { useCreateBlogMutation,useGetBlogsQuery,useDeleteBlogMutation, useUpdateBlogMutation } from '@/redux/features/blogs/blog.api';
+import { useCreateProjectMutation,useUpdateProjectMutation,useDeleteProjectMutation,useGetProjectsQuery } from '@/redux/features/projects/project.api';
 
 
-export default function BlogPage({ session }: BlogPageProps) {
+export default function ProjectPage() {
     const [open, setOpen] = useState(false);
-    const [form] = Form.useForm<Partial<TBlog>>();
+    const [form] = Form.useForm<Partial<TProject>>();
     const [editMode,setEditMode] = useState<boolean>(false);
-    const [editData,setEditData] = useState<Partial<TBlog>|null>(null);
+    const [editData,setEditData] = useState<Partial<TProject>|null>(null);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
     let toastId:number|string = 0;
@@ -44,11 +44,11 @@ export default function BlogPage({ session }: BlogPageProps) {
      */
 
     /**
-     * create new Or update blog methods
+     * create new Or update project methods
      */
 
-    const [createBlog] = useCreateBlogMutation();
-    const [updateBlog] = useUpdateBlogMutation();
+    const [createProject] = useCreateProjectMutation();
+    const [updateProject] = useUpdateProjectMutation();
     
     const showDrawer = () => {
         setOpen(true);
@@ -98,10 +98,10 @@ export default function BlogPage({ session }: BlogPageProps) {
         onChange: handleChange,
     };
 
-    const onFinish: FormProps<Partial<TBlog>>['onFinish'] = async (values) => {
+    const onFinish: FormProps<Partial<TProject>>['onFinish'] = async (values) => {
         try {
-            
-            const toastMessage = editMode == true?'...blog updating':'...blog creating'
+
+            const toastMessage = editMode == true?'...project updating':'...project creating'
             toastId = toast.loading(toastMessage,{id:toastId});
 
             /**
@@ -122,9 +122,9 @@ export default function BlogPage({ session }: BlogPageProps) {
             let res;
             if(editMode == true){
                 formData.append('id',editData?._id as string)
-                res = await updateBlog(formData);
+                res = await updateProject(formData);
             }else{
-                res = await createBlog(formData);
+                res = await createProject(formData);
             }
             
 
@@ -147,11 +147,11 @@ export default function BlogPage({ session }: BlogPageProps) {
     /**
      * Table section methods and list
      */
-    const [deleteBlog] = useDeleteBlogMutation();
-    const deleteBlogMethod = async (data: Partial<TBlog>) => {
-        toast.loading("...blog deleting",{id:toastId});
+    const [deleteProject] = useDeleteProjectMutation();
+    const deleteProjectMethod = async (data: Partial<TProject>) => {
+        toast.loading("...project deleting",{id:toastId});
         try{
-            const res = await deleteBlog(data._id)
+            const res = await deleteProject(data._id)
             if(res.data?.statusCode == 200){
                 toastId = toast.success(res.data?.message,{id:toastId});
             }else{
@@ -161,20 +161,20 @@ export default function BlogPage({ session }: BlogPageProps) {
             console.log(err);
         }
     };
-    const updateBlogMethod = (rowData:Partial<TBlog>) => {
+    const updateProjectMethod = (rowData:Partial<TProject>) => {
 
         setEditMode(true);
         form.setFieldsValue(rowData);
         setEditData(rowData);
         showDrawer();
     }
-    const {data,isLoading,isSuccess} = useGetBlogsQuery(undefined);
+    const {data,isLoading,isSuccess} = useGetProjectsQuery(undefined);
 
     if(isSuccess){
         
-        toast.success('Blogs retrieved successfully',{id:toastId});
+        toast.success('Projects retrieved successfully',{id:toastId});
     }
-    const columns: TableProps<Partial<TBlog>>['columns'] = [
+    const columns: TableProps<Partial<TProject>>['columns'] = [
         {
             title: 'Title',
             dataIndex: 'title',
@@ -184,55 +184,41 @@ export default function BlogPage({ session }: BlogPageProps) {
                     <h4 style={{ margin: 0, padding: 0 }}>{title}</h4>
                 </div>
             ),
-            width: "25%"
+            width: "34%"
 
         },
-        {
-            title: 'Category',
-            dataIndex: 'category',
-            key: '2',
-            render: (_, { category }) => (
-                <>
-                    {
-                        <Tag color={'#cb795f'} key={category}>
-                            {category}
-                        </Tag>
-                    }
-                </>
-            ),
-            width: "25%"
-        },
+
         {
             title: 'Image',
             dataIndex: 'image',
-            key: '3',
+            key: '2',
             render:(_,{image})=> (
                 <Image src={image} style={{height:"80px"}}  />
             ),
-            width: "25%"
+            width: "33%"
         },
         {
             title: 'Action',
-            key: '4',
+            key: '3',
             render: (_, rowData) => (
                 <Space size="middle">
                     <Button
                         color="primary"
                         variant="solid"
-                        onClick={() => updateBlogMethod(rowData)}
+                        onClick={() => updateProjectMethod(rowData)}
                     >
                         Update
                     </Button>
                     <Button
                         color="danger"
                         variant="dashed"
-                        onClick={() => deleteBlogMethod(rowData)}
+                        onClick={() => deleteProjectMethod(rowData)}
                     >
                         Delete
                     </Button>
                 </Space>
             ),
-            width: "25%"
+            width: "33%"
         },
     ];
 
@@ -247,15 +233,15 @@ export default function BlogPage({ session }: BlogPageProps) {
             >
                 Create New
             </Button>
-            <Table<Partial<TBlog>>
-                className="blog-table"
+            <Table<Partial<TProject>>
+                className="project-table"
                 columns={columns}
                 loading={isLoading}
-                dataSource={data?.data as readonly TBlog[]}
+                dataSource={data?.data as readonly TProject[]}
                 rowKey="_id"
             />
             <Drawer
-                title={`${editMode == true?'Update':'Create new'} blog`}
+                title={`${editMode == true?'Update':'Create new'} project`}
                 width={720}
                 onClose={onClose}
                 open={open}
@@ -268,38 +254,52 @@ export default function BlogPage({ session }: BlogPageProps) {
                 <Form layout="vertical" form={form} onFinish={onFinish}>
                     <Row gutter={16}>
                         <Col span={24}>
-                            <Form.Item<TBlog>
+                            <Form.Item<TProject>
                                 name="title"
                                 label="Title"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please enter blog title',
+                                        message: 'Please enter project title',
                                     },
                                 ]}
                             >
-                                <Input placeholder="Please enter blog title" />
+                                <Input placeholder="Please enter project title" />
                             </Form.Item>
                         </Col>
                         <Col span={24}>
-                            <Form.Item<TBlog>
-                                name="content"
-                                label="Content"
+                            <Form.Item<TProject>
+                                name="link"
+                                label="Live link"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'please write content',
+                                        message: 'Please enter project live linke',
+                                    },
+                                ]}
+                            >
+                                <Input placeholder="Please enter project live link" />
+                            </Form.Item>
+                        </Col>
+                        <Col span={24}>
+                            <Form.Item<TProject>
+                                name="description"
+                                label="Description"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'please write description',
                                     },
                                 ]}
                             >
                                 <Input.TextArea
                                     rows={4}
-                                    placeholder="please write content"
+                                    placeholder="please write description"
                                 />
                             </Form.Item>
                         </Col>
                         <Col span={24}>
-                            <Form.Item<TBlog>
+                            <Form.Item<TProject>
                                 name="image"
                                 label="Image"
                                 rules={[
@@ -319,33 +319,7 @@ export default function BlogPage({ session }: BlogPageProps) {
                              </div>
                             </Form.Item>
                         </Col>
-                        <Col span={24}>
-                            <Form.Item<TBlog>
-                                name="category"
-                                label="Category"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please choose the category',
-                                    },
-                                ]}
-                            >
-                                <Select placeholder="Please choose the type">
-                                    <Option value="Fiction">Fiction</Option>
-                                    <Option value="Science">Science</Option>
-                                    <Option value="Technology">
-                                        Technology
-                                    </Option>
-                                    <Option value="Education">Education</Option>
-                                    <Option value="Adventure">Adventure</Option>
-                                    <Option value="Mystery">Mystery</Option>
-                                    <Option value="Self-Help">Self-Help</Option>
-                                    <Option value="Fantasy">Fantasy</Option>
-                                    <Option value="History">History</Option>
-                                    <Option value="Biography">Biography</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
+     
                         <Col span={24}>
                             <Form.Item label={null}>
                                 <Button

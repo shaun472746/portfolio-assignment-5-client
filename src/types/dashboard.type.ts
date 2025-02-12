@@ -5,6 +5,15 @@ export type TBlog = {
     content: string;
     image: string;
     category: string;
+    _id?:string;
+};
+
+export type TProject = {
+    title: string;
+    description: string;
+    image: string;
+    link?: string;
+    _id?:string;
 };
 
 export interface BlogPageProps {
