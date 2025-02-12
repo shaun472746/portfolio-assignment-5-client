@@ -32,8 +32,6 @@ export default function NavBar({ session }: BlogPageProps) {
             setRouteObject(() => {
                 return newLoginPaths;
             });
-
-
         }
 
         if (typeof window !== 'undefined') {

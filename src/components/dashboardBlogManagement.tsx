@@ -44,7 +44,7 @@ export default function BlogPage({
     const [form] = Form.useForm<Partial<TBlog>>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<TBlog> | null>(null);
-    const [blogs,setBlogs] = useState<{data:TBlog[]}>(blogData);
+    const [blogs, setBlogs] = useState<{ data: TBlog[] }>(blogData);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
     let toastId: number | string = 0;
@@ -56,10 +56,10 @@ export default function BlogPage({
     /**
      * create new Or update blog methods
      */
-    const {data,isLoading} = useGetBlogsQuery(undefined)
-    useEffect(()=>{
+    const { data, isLoading } = useGetBlogsQuery(undefined);
+    useEffect(() => {
         setBlogs(data);
-    },[data])
+    }, [data]);
 
     const [createBlog] = useCreateBlogMutation();
     const [updateBlog] = useUpdateBlogMutation();

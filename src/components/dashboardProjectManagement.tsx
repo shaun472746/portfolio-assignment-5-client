@@ -43,7 +43,7 @@ export default function ProjectPage({
     const [form] = Form.useForm<Partial<TProject>>();
     const [editMode, setEditMode] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<TProject> | null>(null);
-    const [prjData,setProjectData] = useState<TProject[]>(projectData);
+    const [prjData, setProjectData] = useState<TProject[]>(projectData);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
     let toastId: number | string = 0;
@@ -55,11 +55,10 @@ export default function ProjectPage({
     /**
      * create new Or update project methods
      */
-    const {data:{data:projects}=[]} = useGetProjectsQuery(undefined);
-    useEffect(()=>{
+    const { data: { data: projects } = [] } = useGetProjectsQuery(undefined);
+    useEffect(() => {
         setProjectData(projects);
-    },[projects])
-
+    }, [projects]);
 
     const [createProject] = useCreateProjectMutation();
     const [updateProject] = useUpdateProjectMutation();
