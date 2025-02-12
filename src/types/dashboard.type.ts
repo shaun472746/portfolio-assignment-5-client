@@ -5,7 +5,7 @@ export type TBlog = {
     content: string;
     image: string;
     category: string;
-    _id?:string;
+    _id?: string;
 };
 
 export type TProject = {
@@ -13,7 +13,7 @@ export type TProject = {
     description: string;
     image: string;
     link?: string;
-    _id?:string;
+    _id?: string;
 };
 
 export interface BlogPageProps {

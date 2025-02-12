@@ -8,31 +8,36 @@ const blogApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: formData,
             }),
-            invalidatesTags:["projects"]
+            invalidatesTags: ['projects'],
         }),
         getBlogs: builder.query({
             query: () => ({
-                url: "/blog",
-                method: "GET"
+                url: '/blog',
+                method: 'GET',
             }),
-            providesTags:["blogs"]
+            providesTags: ['blogs'],
         }),
         deleteBlog: builder.mutation({
-            query:(id) => ({
+            query: (id) => ({
                 url: `/blog/${id}`,
-                method: "DELETE"
+                method: 'DELETE',
             }),
-            invalidatesTags:["blogs"]
+            invalidatesTags: ['blogs'],
         }),
         updateBlog: builder.mutation({
             query: (formData) => ({
-              url: `/blog/${formData.get("id")}`,
-              method: "PUT",
-              body: formData,
+                url: `/blog/${formData.get('id')}`,
+                method: 'PUT',
+                body: formData,
             }),
-            invalidatesTags: ["blogs"],
-          }),
+            invalidatesTags: ['blogs'],
+        }),
     }),
 });
 
-export const { useCreateBlogMutation,useGetBlogsQuery,useDeleteBlogMutation,useUpdateBlogMutation } = blogApi;
+export const {
+    useCreateBlogMutation,
+    useGetBlogsQuery,
+    useDeleteBlogMutation,
+    useUpdateBlogMutation,
+} = blogApi;

@@ -25,19 +25,23 @@ import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
-import { Toaster,toast } from 'sonner';
+import { Toaster, toast } from 'sonner';
 
-import { useCreateBlogMutation,useGetBlogsQuery,useDeleteBlogMutation, useUpdateBlogMutation } from '@/redux/features/blogs/blog.api';
-
+import {
+    useCreateBlogMutation,
+    useGetBlogsQuery,
+    useDeleteBlogMutation,
+    useUpdateBlogMutation,
+} from '@/redux/features/blogs/blog.api';
 
 export default function BlogPage({ session }: BlogPageProps) {
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm<Partial<TBlog>>();
-    const [editMode,setEditMode] = useState<boolean>(false);
-    const [editData,setEditData] = useState<Partial<TBlog>|null>(null);
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [editData, setEditData] = useState<Partial<TBlog> | null>(null);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
-    let toastId:number|string = 0;
+    let toastId: number | string = 0;
 
     /**
      * oauth related methods and state
@@ -49,7 +53,7 @@ export default function BlogPage({ session }: BlogPageProps) {
 
     const [createBlog] = useCreateBlogMutation();
     const [updateBlog] = useUpdateBlogMutation();
-    
+
     const showDrawer = () => {
         setOpen(true);
     };
@@ -100,9 +104,9 @@ export default function BlogPage({ session }: BlogPageProps) {
 
     const onFinish: FormProps<Partial<TBlog>>['onFinish'] = async (values) => {
         try {
-            
-            const toastMessage = editMode == true?'...blog updating':'...blog creating'
-            toastId = toast.loading(toastMessage,{id:toastId});
+            const toastMessage =
+                editMode == true ? '...blog updating' : '...blog creating';
+            toastId = toast.loading(toastMessage, { id: toastId });
 
             /**
              * making json data ready
@@ -120,22 +124,20 @@ export default function BlogPage({ session }: BlogPageProps) {
              * submitting json
              */
             let res;
-            if(editMode == true){
-                formData.append('id',editData?._id as string)
+            if (editMode == true) {
+                formData.append('id', editData?._id as string);
                 res = await updateBlog(formData);
-            }else{
+            } else {
                 res = await createBlog(formData);
             }
-            
-
 
             /**
              * displaying toast message
              */
-            if(res.data?.statusCode == 200){
-                toastId = toast.success(res.data?.message,{id:toastId});
-            }else{
-                toast.error(res.data?.message,{id: toastId});
+            if (res.data?.statusCode == 200) {
+                toastId = toast.success(res.data?.message, { id: toastId });
+            } else {
+                toast.error(res.data?.message, { id: toastId });
             }
             setEditMode(false);
             onClose();
@@ -149,30 +151,28 @@ export default function BlogPage({ session }: BlogPageProps) {
      */
     const [deleteBlog] = useDeleteBlogMutation();
     const deleteBlogMethod = async (data: Partial<TBlog>) => {
-        toast.loading("...blog deleting",{id:toastId});
-        try{
-            const res = await deleteBlog(data._id)
-            if(res.data?.statusCode == 200){
-                toastId = toast.success(res.data?.message,{id:toastId});
-            }else{
-                toastId = toast.error(res.data?.message,{id:toastId});
+        toast.loading('...blog deleting', { id: toastId });
+        try {
+            const res = await deleteBlog(data._id);
+            if (res.data?.statusCode == 200) {
+                toastId = toast.success(res.data?.message, { id: toastId });
+            } else {
+                toastId = toast.error(res.data?.message, { id: toastId });
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     };
-    const updateBlogMethod = (rowData:Partial<TBlog>) => {
-
+    const updateBlogMethod = (rowData: Partial<TBlog>) => {
         setEditMode(true);
         form.setFieldsValue(rowData);
         setEditData(rowData);
         showDrawer();
-    }
-    const {data,isLoading,isSuccess} = useGetBlogsQuery(undefined);
+    };
+    const { data, isLoading, isSuccess } = useGetBlogsQuery(undefined);
 
-    if(isSuccess){
-        
-        toast.success('Blogs retrieved successfully',{id:toastId});
+    if (isSuccess) {
+        toast.success('Blogs retrieved successfully', { id: toastId });
     }
     const columns: TableProps<Partial<TBlog>>['columns'] = [
         {
@@ -184,8 +184,7 @@ export default function BlogPage({ session }: BlogPageProps) {
                     <h4 style={{ margin: 0, padding: 0 }}>{title}</h4>
                 </div>
             ),
-            width: "25%"
-
+            width: '25%',
         },
         {
             title: 'Category',
@@ -200,16 +199,16 @@ export default function BlogPage({ session }: BlogPageProps) {
                     }
                 </>
             ),
-            width: "25%"
+            width: '25%',
         },
         {
             title: 'Image',
             dataIndex: 'image',
             key: '3',
-            render:(_,{image})=> (
-                <Image src={image} style={{height:"80px"}}  />
+            render: (_, { image }) => (
+                <Image src={image} style={{ height: '80px' }} />
             ),
-            width: "25%"
+            width: '25%',
         },
         {
             title: 'Action',
@@ -232,7 +231,7 @@ export default function BlogPage({ session }: BlogPageProps) {
                     </Button>
                 </Space>
             ),
-            width: "25%"
+            width: '25%',
         },
     ];
 
@@ -255,7 +254,7 @@ export default function BlogPage({ session }: BlogPageProps) {
                 rowKey="_id"
             />
             <Drawer
-                title={`${editMode == true?'Update':'Create new'} blog`}
+                title={`${editMode == true ? 'Update' : 'Create new'} blog`}
                 width={720}
                 onClose={onClose}
                 open={open}
@@ -309,14 +308,25 @@ export default function BlogPage({ session }: BlogPageProps) {
                                     },
                                 ]}
                             >
-                             <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                             {editMode && !fileList &&  <Image src={form.getFieldValue('image')} style={{width:"150px"}}/>}   
-                                <Upload {...props} fileList={fileList}>
-                                    <Button icon={<UploadOutlined />}>
-                                        Upload
-                                    </Button>
-                                </Upload>
-                             </div>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '10px',
+                                    }}
+                                >
+                                    {editMode && !fileList && (
+                                        <Image
+                                            src={form.getFieldValue('image')}
+                                            style={{ width: '150px' }}
+                                        />
+                                    )}
+                                    <Upload {...props} fileList={fileList}>
+                                        <Button icon={<UploadOutlined />}>
+                                            Upload
+                                        </Button>
+                                    </Upload>
+                                </div>
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -352,7 +362,7 @@ export default function BlogPage({ session }: BlogPageProps) {
                                     className="default-btn-class"
                                     htmlType="submit"
                                 >
-                                    {editMode == true?'Update':'Create'}
+                                    {editMode == true ? 'Update' : 'Create'}
                                 </Button>
                             </Form.Item>
                         </Col>

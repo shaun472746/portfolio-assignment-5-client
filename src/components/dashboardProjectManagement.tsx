@@ -25,19 +25,23 @@ import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
-import { Toaster,toast } from 'sonner';
+import { Toaster, toast } from 'sonner';
 
-import { useCreateProjectMutation,useUpdateProjectMutation,useDeleteProjectMutation,useGetProjectsQuery } from '@/redux/features/projects/project.api';
-
+import {
+    useCreateProjectMutation,
+    useUpdateProjectMutation,
+    useDeleteProjectMutation,
+    useGetProjectsQuery,
+} from '@/redux/features/projects/project.api';
 
 export default function ProjectPage() {
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm<Partial<TProject>>();
-    const [editMode,setEditMode] = useState<boolean>(false);
-    const [editData,setEditData] = useState<Partial<TProject>|null>(null);
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [editData, setEditData] = useState<Partial<TProject> | null>(null);
 
     const [fileList, setFileList] = useState<UploadFile[]>();
-    let toastId:number|string = 0;
+    let toastId: number | string = 0;
 
     /**
      * oauth related methods and state
@@ -49,7 +53,7 @@ export default function ProjectPage() {
 
     const [createProject] = useCreateProjectMutation();
     const [updateProject] = useUpdateProjectMutation();
-    
+
     const showDrawer = () => {
         setOpen(true);
     };
@@ -98,11 +102,15 @@ export default function ProjectPage() {
         onChange: handleChange,
     };
 
-    const onFinish: FormProps<Partial<TProject>>['onFinish'] = async (values) => {
+    const onFinish: FormProps<Partial<TProject>>['onFinish'] = async (
+        values
+    ) => {
         try {
-
-            const toastMessage = editMode == true?'...project updating':'...project creating'
-            toastId = toast.loading(toastMessage,{id:toastId});
+            const toastMessage =
+                editMode == true
+                    ? '...project updating'
+                    : '...project creating';
+            toastId = toast.loading(toastMessage, { id: toastId });
 
             /**
              * making json data ready
@@ -120,22 +128,20 @@ export default function ProjectPage() {
              * submitting json
              */
             let res;
-            if(editMode == true){
-                formData.append('id',editData?._id as string)
+            if (editMode == true) {
+                formData.append('id', editData?._id as string);
                 res = await updateProject(formData);
-            }else{
+            } else {
                 res = await createProject(formData);
             }
-            
-
 
             /**
              * displaying toast message
              */
-            if(res.data?.statusCode == 200){
-                toastId = toast.success(res.data?.message,{id:toastId});
-            }else{
-                toast.error(res.data?.message,{id: toastId});
+            if (res.data?.statusCode == 200) {
+                toastId = toast.success(res.data?.message, { id: toastId });
+            } else {
+                toast.error(res.data?.message, { id: toastId });
             }
             setEditMode(false);
             onClose();
@@ -149,30 +155,28 @@ export default function ProjectPage() {
      */
     const [deleteProject] = useDeleteProjectMutation();
     const deleteProjectMethod = async (data: Partial<TProject>) => {
-        toast.loading("...project deleting",{id:toastId});
-        try{
-            const res = await deleteProject(data._id)
-            if(res.data?.statusCode == 200){
-                toastId = toast.success(res.data?.message,{id:toastId});
-            }else{
-                toastId = toast.error(res.data?.message,{id:toastId});
+        toast.loading('...project deleting', { id: toastId });
+        try {
+            const res = await deleteProject(data._id);
+            if (res.data?.statusCode == 200) {
+                toastId = toast.success(res.data?.message, { id: toastId });
+            } else {
+                toastId = toast.error(res.data?.message, { id: toastId });
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     };
-    const updateProjectMethod = (rowData:Partial<TProject>) => {
-
+    const updateProjectMethod = (rowData: Partial<TProject>) => {
         setEditMode(true);
         form.setFieldsValue(rowData);
         setEditData(rowData);
         showDrawer();
-    }
-    const {data,isLoading,isSuccess} = useGetProjectsQuery(undefined);
+    };
+    const { data, isLoading, isSuccess } = useGetProjectsQuery(undefined);
 
-    if(isSuccess){
-        
-        toast.success('Projects retrieved successfully',{id:toastId});
+    if (isSuccess) {
+        toast.success('Projects retrieved successfully', { id: toastId });
     }
     const columns: TableProps<Partial<TProject>>['columns'] = [
         {
@@ -184,18 +188,17 @@ export default function ProjectPage() {
                     <h4 style={{ margin: 0, padding: 0 }}>{title}</h4>
                 </div>
             ),
-            width: "34%"
-
+            width: '34%',
         },
 
         {
             title: 'Image',
             dataIndex: 'image',
             key: '2',
-            render:(_,{image})=> (
-                <Image src={image} style={{height:"80px"}}  />
+            render: (_, { image }) => (
+                <Image src={image} style={{ height: '80px' }} />
             ),
-            width: "33%"
+            width: '33%',
         },
         {
             title: 'Action',
@@ -218,7 +221,7 @@ export default function ProjectPage() {
                     </Button>
                 </Space>
             ),
-            width: "33%"
+            width: '33%',
         },
     ];
 
@@ -241,7 +244,7 @@ export default function ProjectPage() {
                 rowKey="_id"
             />
             <Drawer
-                title={`${editMode == true?'Update':'Create new'} project`}
+                title={`${editMode == true ? 'Update' : 'Create new'} project`}
                 width={720}
                 onClose={onClose}
                 open={open}
@@ -274,7 +277,8 @@ export default function ProjectPage() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please enter project live linke',
+                                        message:
+                                            'Please enter project live linke',
                                     },
                                 ]}
                             >
@@ -309,24 +313,35 @@ export default function ProjectPage() {
                                     },
                                 ]}
                             >
-                             <div style={{display:"flex",flexDirection:"column",gap:"10px"}}>
-                             {editMode && !fileList &&  <Image src={form.getFieldValue('image')} style={{width:"150px"}}/>}   
-                                <Upload {...props} fileList={fileList}>
-                                    <Button icon={<UploadOutlined />}>
-                                        Upload
-                                    </Button>
-                                </Upload>
-                             </div>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '10px',
+                                    }}
+                                >
+                                    {editMode && !fileList && (
+                                        <Image
+                                            src={form.getFieldValue('image')}
+                                            style={{ width: '150px' }}
+                                        />
+                                    )}
+                                    <Upload {...props} fileList={fileList}>
+                                        <Button icon={<UploadOutlined />}>
+                                            Upload
+                                        </Button>
+                                    </Upload>
+                                </div>
                             </Form.Item>
                         </Col>
-     
+
                         <Col span={24}>
                             <Form.Item label={null}>
                                 <Button
                                     className="default-btn-class"
                                     htmlType="submit"
                                 >
-                                    {editMode == true?'Update':'Create'}
+                                    {editMode == true ? 'Update' : 'Create'}
                                 </Button>
                             </Form.Item>
                         </Col>
