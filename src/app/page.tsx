@@ -13,8 +13,62 @@ import {
     Divider,
     ConfigProvider,
 } from 'antd';
+import SkillItem from '@/components/home/skillItem';
+
 
 export default function Home() {
+    const skills = [
+        {
+            skill: 'Vue',
+            percentage: 98,
+            icon:"/images/vue.png",
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'Laravel',
+            percentage: 80,
+            icon:"/laravel.png",
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'PHP',
+            percentage: 80,
+            icon:"/php.png",
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'React',
+            icon:"/react.png",
+            percentage: 90,
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'Next JS',
+            icon:"/nextjs.png",
+            percentage: 90,
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'JavaScript',
+            icon:"/javascript.png",
+            percentage: 98,
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'CSS3',
+            icon:"/css3.png",
+            percentage: 90,
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+        {
+            skill: 'HTML',
+            icon:"/html-5.png",
+            percentage: 95,
+            detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
+        },
+    ];
+
+
     return (
         <div className="default-margin-body">
             <Row gutter={[16, 16]} className={styles.headerRow}>
@@ -77,7 +131,9 @@ export default function Home() {
                             className="default-btn-class"
                             style={{ width: '200px' }}
                         >
-                            Download CV
+                            <a href="/Shaun-hossain.pdf" target="_blank">
+                                Download CV
+                            </a>
                         </Button>
                     </Flex>
                 </Col>
@@ -86,137 +142,7 @@ export default function Home() {
                 <h3 className={styles.dividerHeader}>SKILLS</h3>
             </Divider>
             <Row gutter={[16, 16]} style={{ marginTop: '25px' }}>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={12}
-                    xl={12}
-                    className="gutter-row"
-                >
-                    <Flex justify="flex-start" wrap gap={20}>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} ${styles.activeSkillBtn}`}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            Vue
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            Laravel
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            PHP
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            React
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            Next Js
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            JavaScript
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            CSS3
-                        </Button>
-                        <Button
-                            type="text"
-                            className={`${styles.skillButton} `}
-                        >
-                            <img
-                                src="/images/vue.png"
-                                className={styles.skillItem}
-                            />{' '}
-                            HTML5
-                        </Button>
-                    </Flex>
-                </Col>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={12}
-                    xl={12}
-                    className="gutter-row"
-                >
-                    <Flex
-                        justify="flex-end"
-                        className={styles.descriptionSection}
-                    >
-                        <Card
-                            hoverable
-                            style={{ width: '100%', height: '80%' }}
-                        >
-                            <Flex gap={15} align="center">
-                                <img
-                                    src="/images/vue.png"
-                                    className={styles.skillItemHeading}
-                                />
-                                <h3> Vue</h3>
-                            </Flex>
-                            <Flex className={styles.progressDescriptionSection}>
-                                <p>
-                                    It is a long established fact that a reader
-                                    will be distracted by the readable content
-                                    of a page when looking at its layout. The
-                                    point of using Lorem Ipsum is that it has a
-                                    more-or-less normal
-                                </p>
-                                <Progress
-                                    type="circle"
-                                    percent={75}
-                                    strokeColor={'#136912'}
-                                />
-                            </Flex>
-                        </Card>
-                    </Flex>
-                </Col>
+                <SkillItem skills={skills}/>
             </Row>
             <Divider className={styles.dividerStyle}>
                 <h3 className={styles.dividerHeader}>PROJECTS</h3>

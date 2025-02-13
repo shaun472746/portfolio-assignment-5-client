@@ -26,6 +26,8 @@ import { useEffect, useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
 import { Toaster, toast } from 'sonner';
+import TiptapEditor from '@/utils/TipTapEditor';
+
 
 import {
     useCreateBlogMutation,
@@ -40,6 +42,7 @@ export default function BlogPage({
     blogData: { data: TBlog[] };
 }) {
     const [open, setOpen] = useState(false);
+    const [content, setContent] = useState("");
 
     const [form] = Form.useForm<Partial<TBlog>>();
     const [editMode, setEditMode] = useState<boolean>(false);
@@ -118,6 +121,8 @@ export default function BlogPage({
                 editMode == true ? '...blog updating' : '...blog creating';
             toastId = toast.loading(toastMessage, { id: toastId });
 
+
+
             /**
              * making json data ready
              */
@@ -176,6 +181,7 @@ export default function BlogPage({
     const updateBlogMethod = (rowData: Partial<TBlog>) => {
         setEditMode(true);
         form.setFieldsValue(rowData);
+        setContent(rowData.title as string);
         setEditData(rowData);
         showDrawer();
     };
@@ -244,9 +250,14 @@ export default function BlogPage({
             width: '25%',
         },
     ];
-
+    const handleEditorChange = (content:any) => {
+        setContent(content); // Update state with the new content
+        form.setFieldsValue({content:content});
+      };
     return (
         <div>
+           
+
             <Toaster />
             <Button
                 className="default-btn-class"
@@ -301,11 +312,9 @@ export default function BlogPage({
                                     },
                                 ]}
                             >
-                                <Input.TextArea
-                                    rows={4}
-                                    placeholder="please write content"
-                                />
+                                <TiptapEditor className="tip-tap-editor" onChange={handleEditorChange} value={content} />
                             </Form.Item>
+                            
                         </Col>
                         <Col span={24}>
                             <Form.Item<TBlog>

@@ -3,6 +3,7 @@
 import { GithubFilled, GoogleCircleFilled } from '@ant-design/icons';
 import { Button, Card, Form, FormProps, Input } from 'antd';
 import { signIn } from 'next-auth/react';
+import config from '@/config';
 
 type FieldType = {
     email?: string;
@@ -58,7 +59,7 @@ const LoginPage: React.FC = () => {
                                 htmlType="submit"
                                 onClick={() =>
                                     signIn('google', {
-                                        callbackUrl: 'http://localhost:3000/',
+                                        callbackUrl: config.client_url,
                                     })
                                 }
                             >

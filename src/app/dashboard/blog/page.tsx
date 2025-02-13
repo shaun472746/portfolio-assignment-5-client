@@ -2,9 +2,10 @@ import BlogPage from '@/components/dashboardBlogManagement';
 
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession, Session } from 'next-auth';
+import config from "@/config"
 
 async function getData() {
-    const res = await fetch('http://localhost:5000/api/blog', {
+    const res = await fetch(`${config.api_url}/blog`, {
         cache: 'force-cache',
     });
     return res.json();

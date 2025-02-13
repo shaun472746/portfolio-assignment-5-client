@@ -7,9 +7,11 @@ import {
     fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 import { RootState } from './store';
+import config from '@/config';
 
+console.log(config.api_url);
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api/',
+    baseUrl: config.api_url,
     credentials: 'include',
 });
 export const baseApi = createApi({

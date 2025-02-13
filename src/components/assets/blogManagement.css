@@ -1,3 +1,9 @@
 /* .blog-table .ant-image{
     width: 25%!important;
 } */
+.tip-tap-editor>*{
+    outline: none!important;
+}
+.ProseMirror{
+    outline: none!important;
+}

@@ -1,8 +1,9 @@
 import '../../../../assets/root.css';
 import ProjectPage from '@/components/dashboardProjectManagement';
+import config from "@/config";
 
 async function getData() {
-    const res = await fetch('http://localhost:5000/api/project', {
+    const res = await fetch(`${config.api_url}/project`, {
         cache: 'force-cache',
     });
     return res.json();

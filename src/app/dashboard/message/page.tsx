@@ -1,8 +1,9 @@
 import MessagePage from '@/components/dashboardMessageManagement';
 import '../../../../assets/root.css';
+import config from "@/config"
 
 async function getData() {
-    const res = await fetch('http://localhost:5000/api/message', {
+    const res = await fetch(`${config.api_url}/message`, {
         cache: 'force-cache',
     });
     return res.json();
