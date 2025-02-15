@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import confEnv from './config';
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
     const token = await getToken({
         req: request,
-        secret: process.env.NEXTAUTH_SECRET,
+        secret: confEnv.next_auth_secret,
     });
     const { pathname } = request.nextUrl;
     if (!token && pathname.startsWith('/dashboard')) {

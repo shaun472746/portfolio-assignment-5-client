@@ -13,3 +13,6 @@
     color: var(--default-primary-color);
 }
 /* divider style ends */
+.projectDescription{
+    color: var(--default-paragraph-color);
+}

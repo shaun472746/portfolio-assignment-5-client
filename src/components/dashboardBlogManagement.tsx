@@ -182,9 +182,11 @@ export default function BlogPage({
         setEditMode(true);
         form.setFieldsValue(rowData);
         setContent(rowData.title as string);
-        setEditData(rowData);
+        setEditData((preValue)=> preValue=rowData);
+
         showDrawer();
     };
+
     // const { data, isLoading, isSuccess } = useGetBlogsQuery(undefined);
 
     // if (isSuccess) {
@@ -312,7 +314,7 @@ export default function BlogPage({
                                     },
                                 ]}
                             >
-                                <TiptapEditor className="tip-tap-editor" onChange={handleEditorChange} value={content} />
+                                <TiptapEditor className="tip-tap-editor" onChange={handleEditorChange} value={editData} />
                             </Form.Item>
                             
                         </Col>

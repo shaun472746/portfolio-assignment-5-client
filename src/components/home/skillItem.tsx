@@ -10,6 +10,7 @@ type TSkills = {
     icon: string;
     percentage: number;
     detail: string;
+    id: number;
 }
 export default function SkillItem({ skills }: {skills:TSkills[]}) {
 
@@ -29,6 +30,7 @@ className="gutter-row"
 >
 <Flex justify="flex-start" wrap gap={20}>
         {skills.map(item => (<Button
+        key={item.id}
             onClick={() => setActiveTag(item)}
             type="text"
             className={`${styles.skillButton} ${item.skill == activeTag.skill?styles.activeSkillBtn:''}`}

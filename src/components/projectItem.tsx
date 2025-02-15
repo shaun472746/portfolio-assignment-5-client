@@ -5,14 +5,24 @@ import Link from 'next/link';
 import './assets/projectItem.css';
 import { useRouter } from 'next/navigation';
 
-const ProjectItem: React.FC = () => {
+
+type projectsType = {
+    _id: string;
+    title: string;
+    description: string;
+    image: string;
+    link: string;
+}
+
+const ProjectItem: React.FC<{projects:projectsType[]}> = ({projects}) => {
     const router = useRouter();
-    const goToDetailPage = () => {
-        router.push(`/projects/6`);
+    const goToDetailPage = (item:projectsType) => {
+        router.push(`/projects/${item._id}`);
     };
     return (
         <Row gutter={[16, 16]} style={{ marginTop: '25px' }}>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12} className="gutter-row">
+            {projects?.map((item,index) => (
+                <Col xs={24} sm={24} md={12} lg={12} xl={12} className="gutter-row" key={index}>
                 <ConfigProvider
                     theme={{
                         components: {
@@ -27,26 +37,17 @@ const ProjectItem: React.FC = () => {
                         <div className="projectCard">
                             <div className="cardImage">
                                 <Image
-                                    src="/images/bookshop.png"
+                                    src={item.image}
                                     alt="project image"
                                 />
                             </div>
                             <div className="cardDetail">
                                 <h2>Project Name</h2>
                                 <p style={{ textAlign: 'justify' }}>
-                                    It is a long established fact that a reader
-                                    will be distracted by the readable content
-                                    of a page when looking at its layout. The
-                                    point of using Lorem Ipsum is that it has a
-                                    more-or-less normal distribution of letters,
-                                    as opposed to using 'Content here, content
-                                    here', making it look like readable English.
-                                    Many desktop publishing packages and web
-                                    page editors now use Lorem Ipsum as their
-                                    default model text
+                                    {item.description}
                                 </p>
                                 <Link
-                                    href="https://www.google.com"
+                                    href={item.link}
                                     target="_blank"
                                 >
                                     Project Link To Visit
@@ -60,7 +61,7 @@ const ProjectItem: React.FC = () => {
                                 >
                                     <Button
                                         className="default-btn-class"
-                                        onClick={goToDetailPage}
+                                        onClick={()=>goToDetailPage(item)}
                                     >
                                         {' '}
                                         View Project Detail
@@ -71,6 +72,8 @@ const ProjectItem: React.FC = () => {
                     </Card>
                 </ConfigProvider>
             </Col>
+            ))}
+            
         </Row>
     );
 };

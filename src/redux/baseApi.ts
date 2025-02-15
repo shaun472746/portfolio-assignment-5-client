@@ -9,7 +9,7 @@ import {
 import { RootState } from './store';
 import config from '@/config';
 
-console.log(config.api_url);
+
 const baseQuery = fetchBaseQuery({
     baseUrl: config.api_url,
     credentials: 'include',

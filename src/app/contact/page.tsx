@@ -17,7 +17,7 @@ export default function Contact() {
     const [form] = Form.useForm<Partial<FieldType>>();
     const [createMessage] = useCreateMessageMutation();
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log(values);
+        
         try {
             toastId = toast.loading('...message sending', { id: toastId });
 

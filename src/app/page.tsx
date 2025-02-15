@@ -14,53 +14,70 @@ import {
     ConfigProvider,
 } from 'antd';
 import SkillItem from '@/components/home/skillItem';
+import config from '@/config';
+import { TProject } from '@/types';
 
 
-export default function Home() {
+async function getData() {
+    const project = await fetch(`${config.api_url}/project`, {
+        cache: 'force-cache',
+    });
+    return project.json();
+}
+
+export default async function Home() {
     const skills = [
         {
+            id: 1,
             skill: 'Vue',
             percentage: 98,
             icon:"/images/vue.png",
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:2,
             skill: 'Laravel',
             percentage: 80,
             icon:"/laravel.png",
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:3,
             skill: 'PHP',
             percentage: 80,
             icon:"/php.png",
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:4,
             skill: 'React',
             icon:"/react.png",
             percentage: 90,
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:5,
             skill: 'Next JS',
             icon:"/nextjs.png",
             percentage: 90,
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:6,
             skill: 'JavaScript',
             icon:"/javascript.png",
             percentage: 98,
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:7,
             skill: 'CSS3',
             icon:"/css3.png",
             percentage: 90,
             detail: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal",
         },
         {
+            id:8,
             skill: 'HTML',
             icon:"/html-5.png",
             percentage: 95,
@@ -68,6 +85,8 @@ export default function Home() {
         },
     ];
 
+
+    const projectData = await getData();
 
     return (
         <div className="default-margin-body">
@@ -142,48 +161,56 @@ export default function Home() {
                 <h3 className={styles.dividerHeader}>SKILLS</h3>
             </Divider>
             <Row gutter={[16, 16]} style={{ marginTop: '25px' }}>
-                <SkillItem skills={skills}/>
+                
+                <SkillItem skills={skills} />
+                
             </Row>
             <Divider className={styles.dividerStyle}>
                 <h3 className={styles.dividerHeader}>PROJECTS</h3>
             </Divider>
             <Row gutter={[16, 16]} style={{ marginTop: '25px' }}>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={8}
-                    xl={8}
-                    className="gutter-row"
-                >
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Card: {
-                                    bodyPadding: 0,
-                                },
-                            },
-                        }}
-                    >
-                        {' '}
-                        <Card
+
+
+                        {projectData.data?.map((item:TProject,index:number) => (
+                                            <Col
+                                            key={index}
+                                            xs={24}
+                                            sm={24}
+                                            md={24}
+                                            lg={8}
+                                            xl={8}
+                                            className="gutter-row"
+                                        >
+                                                <ConfigProvider
+                                                theme={{
+                                                    components: {
+                                                        Card: {
+                                                            bodyPadding: 0,
+                                                        },
+                                                    },
+                                                }}
+                                            >
+                                                {' '}
+                            <Card
                             hoverable
                             style={{
-                                width: '100%',
-                                height: '350px',
+                                width: '300px',
+                                height: '200px',
                                 overflow: 'hidden',
                             }}
                         >
                             <div className={styles.overlayEffect}>
                                 <Image
-                                    src="/images/bookshop.png"
+                                    src={item?.image}
                                     alt="header img"
                                     preview={false}
+                                    style={{height:"200px",width:"100%"}}
                                 />
                                 <div className={styles.slideOverlay}>
                                     <div className={styles.overlayContent}>
-                                        <h1>Book Shop Project</h1>
+                                        <h1>{item?.title}</h1>
                                         <Button
+                                            href={`projects/${item?._id}`}
                                             className="default-btn-class"
                                             style={{ width: '200px' }}
                                         >
@@ -193,149 +220,13 @@ export default function Home() {
                                 </div>
                             </div>
                         </Card>
-                    </ConfigProvider>
-                </Col>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={8}
-                    xl={8}
-                    className="gutter-row"
-                >
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Card: {
-                                    bodyPadding: 0,
-                                },
-                            },
-                        }}
-                    >
-                        {' '}
-                        <Card
-                            hoverable
-                            style={{
-                                width: '100%',
-                                height: '350px',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <div className={styles.overlayEffect}>
-                                <Image
-                                    src="/images/bookshop.png"
-                                    alt="header img"
-                                    preview={false}
-                                />
-                                <div className={styles.slideOverlay}>
-                                    <div className={styles.overlayContent}>
-                                        <h1>Book Shop Project</h1>
-                                        <Button
-                                            className="default-btn-class"
-                                            style={{ width: '200px' }}
-                                        >
-                                            View Project
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </ConfigProvider>
-                </Col>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={8}
-                    xl={8}
-                    className="gutter-row"
-                >
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Card: {
-                                    bodyPadding: 0,
-                                },
-                            },
-                        }}
-                    >
-                        {' '}
-                        <Card
-                            hoverable
-                            style={{
-                                width: '100%',
-                                height: '350px',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <div className={styles.overlayEffect}>
-                                <Image
-                                    src="/images/bookshop.png"
-                                    alt="header img"
-                                    preview={false}
-                                />
-                                <div className={styles.slideOverlay}>
-                                    <div className={styles.overlayContent}>
-                                        <h1>Book Shop Project</h1>
-                                        <Button
-                                            className="default-btn-class"
-                                            style={{ width: '200px' }}
-                                        >
-                                            View Project
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </ConfigProvider>
-                </Col>
-                <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={8}
-                    xl={8}
-                    className="gutter-row"
-                >
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Card: {
-                                    bodyPadding: 0,
-                                },
-                            },
-                        }}
-                    >
-                        {' '}
-                        <Card
-                            hoverable
-                            style={{
-                                width: '100%',
-                                height: '350px',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <div className={styles.overlayEffect}>
-                                <Image
-                                    src="/images/bookshop.png"
-                                    alt="header img"
-                                    preview={false}
-                                />
-                                <div className={styles.slideOverlay}>
-                                    <div className={styles.overlayContent}>
-                                        <h1>Book Shop Project</h1>
-                                        <Button
-                                            className="default-btn-class"
-                                            style={{ width: '200px' }}
-                                        >
-                                            View Project
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    </ConfigProvider>
-                </Col>
+                        </ConfigProvider>
+                        </Col>
+                        ))}
+                        
+                    
+                
+
             </Row>
         </div>
     );

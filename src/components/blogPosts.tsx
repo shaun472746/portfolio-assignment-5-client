@@ -1,33 +1,36 @@
 'use client';
 
-import TiptapEditor from '@/utils/TipTapEditor';
-import React, { useState } from 'react';
+import { useGetBlogsQuery } from '@/redux/features/blogs/blog.api';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-const BlogPosts = () => {
-    const [content, setContent] = useState(''); // ✅ Define state for markdown content
+type BlogData = {
+    _id: string;
+    title: string;
+    content: string;
+    image: string;
+    category: string;
+}
 
-    const handleEditorChange = (markdown: string) => {
-        setContent(markdown); // ✅ Update state with new markdown content
-    };
+const BlogPosts = ({blogData}:{blogData:BlogData[]}) => {
 
-    const exampleData = [
-        {
-            id: 2,
-            question: 'This is question 2?',
-            content: content, // ✅ Assign updated markdown content
-        },
-    ];
+    const [blogs, setBlogs] = useState<BlogData[] >(blogData);
+const { data, isLoading } = useGetBlogsQuery(undefined);
+
+
+    useEffect(() => {
+        setBlogs(data.data);
+    }, [data]);
 
     return (
         <div>
-            <TiptapEditor onChange={handleEditorChange} />
+            
 
-            {exampleData.map((post) => (
-                <div key={post.id} style={{ marginBottom: '2rem' }}>
-                    <h4>{post?.question}</h4>
+            {blogs.map((post) => (
+                <div key={post._id} style={{ marginBottom: '2rem' }}>
+                    <h4>{post?.title}</h4>
                     <ReactMarkdown
                         components={{
                             code({ className, children }) {

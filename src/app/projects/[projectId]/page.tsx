@@ -1,10 +1,31 @@
+
+
 import Link from 'next/link';
 import '../../../../assets/root.css';
 import styles from './projectDetail.module.css';
 
 import { Button, Card, Col, ConfigProvider, Divider, Image, Row } from 'antd';
+import config from '@/config';
 
-export default function ProjectDetail() {
+async function getData(id:string | undefined | string[]) {
+    const res = await fetch(`${config.api_url}/project/${id}`, {
+        cache: 'force-cache',
+    });
+    return res.json();
+}
+
+type ProjectType = {
+    params:{projectId: string},
+}
+
+export default async function ProjectDetail({params}:ProjectType) {
+
+  
+    const { projectId } = await params;
+    const {data:projectData} = await getData(projectId);
+
+  
+
     return (
         <div className="default-margin-body">
             <Divider orientation="left" className={styles.dividerStyle}>
@@ -20,7 +41,7 @@ export default function ProjectDetail() {
                     className="gutter-row"
                 >
                     <div className={styles.cardImage}>
-                        <Image src="/images/bookshop.png" alt="project image" />
+                        <Image src={projectData.image} alt="project image" />
                     </div>
                 </Col>
                 <Col
@@ -31,19 +52,12 @@ export default function ProjectDetail() {
                     xl={16}
                     className="gutter-row"
                 >
-                    <h2>Project Name</h2>
-                    <Link href="https://www.google.com" target="_blank">
+                    <h2>{projectData.title}</h2>
+                    <Link href={'#'}>
                         Project Link To Visit
                     </Link>
-                    <p>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking at its layout. The point of using Lorem Ipsum is
-                        that it has a more-or-less normal distribution of
-                        letters, as opposed to using 'Content here, content
-                        here', making it look like readable English. Many
-                        desktop publishing packages and web page editors now use
-                        Lorem Ipsum as their default model text,
+                    <p className={styles.projectDescription}>
+                        {projectData?.description}
                     </p>
                 </Col>
             </Row>

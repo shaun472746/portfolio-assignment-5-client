@@ -12,7 +12,7 @@ type FieldType = {
 const LoginPage: React.FC = () => {
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         try {
-            console.log(values);
+            
             // const userInfo = {
             //     email: values.email,
             //     password: values.password,

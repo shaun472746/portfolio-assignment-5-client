@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Markdown } from 'tiptap-markdown';
@@ -54,6 +54,7 @@ const Toolbar = ({ editor }:any) => {
 };
 
 const TiptapEditor = ({ onChange,value}:any) => {
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -68,6 +69,12 @@ const TiptapEditor = ({ onChange,value}:any) => {
       onChange(markdown); // Pass markdown content to parent
     },
   });
+
+  useEffect(()=>{
+    if(editor && value !== editor.storage.markdown.getMarkdown()){
+      editor.commands.setContent(value);
+    }
+  },[value,editor])
 
   return (
     <div>
