@@ -8,12 +8,14 @@ const messageApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: formData,
             }),
+            invalidatesTags: ['messages'],
         }),
         getMessages: builder.query({
             query: () => ({
                 url: '/message',
                 method: 'GET',
             }),
+            providesTags: ['messages'],
         }),
     }),
 });

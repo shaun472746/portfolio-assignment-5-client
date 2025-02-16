@@ -6,6 +6,7 @@ import styles from './projectDetail.module.css';
 
 import { Button, Card, Col, ConfigProvider, Divider, Image, Row } from 'antd';
 import config from '@/config';
+import { Metadata } from 'next';
 
 async function getData(id:string | undefined | string[]) {
     const res = await fetch(`${config.api_url}/project/${id}`, {
@@ -17,6 +18,12 @@ async function getData(id:string | undefined | string[]) {
 type ProjectType = {
     params:{projectId: string},
 }
+
+export const metadata: Metadata = {
+    title: 'Project Detail',
+    description: 'Overview',
+};
+
 
 export default async function ProjectDetail({params}:ProjectType) {
 

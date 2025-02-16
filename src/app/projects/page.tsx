@@ -4,6 +4,7 @@ import styles from './projects.module.css';
 import ProjectItem from '@/components/projectItem';
 
 import { Divider } from 'antd';
+import { Metadata } from 'next';
 
 
 async function getData() {
@@ -12,6 +13,12 @@ async function getData() {
     });
     return res.json();
 }
+
+export const metadata: Metadata = {
+    title: 'Projects',
+    description: 'Overview',
+};
+
 
 export default async function Project() {
 

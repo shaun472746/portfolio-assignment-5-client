@@ -1,4 +1,11 @@
+import { Metadata } from 'next';
 import '../../../assets/root.css';
+
+export const metadata: Metadata = {
+    title: 'Dashboard',
+    description: 'Overview',
+};
+
 
 export default function Project() {
     return (

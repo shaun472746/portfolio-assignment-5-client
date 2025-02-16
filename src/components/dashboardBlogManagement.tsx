@@ -60,8 +60,12 @@ export default function BlogPage({
      * create new Or update blog methods
      */
     const { data, isLoading } = useGetBlogsQuery(undefined);
+    
     useEffect(() => {
-        setBlogs(data);
+        if(data){
+            
+            setBlogs(data);
+        }
     }, [data]);
 
     const [createBlog] = useCreateBlogMutation();

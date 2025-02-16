@@ -1,6 +1,7 @@
 import Meta from 'antd/es/card/Meta';
 import '../../assets/root.css';
 import styles from './home.module.css';
+import type { Metadata } from 'next';
 
 import {
     Button,
@@ -24,6 +25,12 @@ async function getData() {
     });
     return project.json();
 }
+
+
+export const metadata: Metadata = {
+    title: 'Home',
+    description: 'Overview',
+};
 
 export default async function Home() {
     const skills = [

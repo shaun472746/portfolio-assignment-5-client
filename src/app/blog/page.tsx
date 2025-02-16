@@ -15,6 +15,7 @@ import {
     ConfigProvider,
     theme,
 } from 'antd';
+import { Metadata } from 'next';
 
 
 async function getData() {
@@ -23,6 +24,12 @@ async function getData() {
     });
     return res.json();
 }
+
+export const metadata: Metadata = {
+    title: 'Blog',
+    description: 'Overview',
+};
+
 
 export default async function Blog() {
 

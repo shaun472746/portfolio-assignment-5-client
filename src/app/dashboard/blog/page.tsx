@@ -3,6 +3,7 @@ import BlogPage from '@/components/dashboardBlogManagement';
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession, Session } from 'next-auth';
 import config from "@/config"
+import { Metadata } from 'next';
 
 async function getData() {
     const res = await fetch(`${config.api_url}/blog`, {
@@ -10,6 +11,12 @@ async function getData() {
     });
     return res.json();
 }
+
+export const metadata: Metadata = {
+    title: 'Dashboard-Blog',
+    description: 'Overview',
+};
+
 
 export default async function BlogManagement() {
     const session: Session | null = await getServerSession(authOptions);

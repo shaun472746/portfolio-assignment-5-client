@@ -4,11 +4,19 @@ import { GithubFilled, GoogleCircleFilled } from '@ant-design/icons';
 import { Button, Card, Form, FormProps, Input } from 'antd';
 import { signIn } from 'next-auth/react';
 import config from '@/config';
+import { Metadata } from 'next';
 
 type FieldType = {
     email?: string;
     password?: string;
 };
+
+export const metadata: Metadata = {
+    title: 'Login',
+    description: 'Overview',
+};
+
+
 const LoginPage: React.FC = () => {
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         try {

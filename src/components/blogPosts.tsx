@@ -21,7 +21,9 @@ const { data, isLoading } = useGetBlogsQuery(undefined);
 
 
     useEffect(() => {
-        setBlogs(data.data);
+        if(data && data.data.length>0){
+            setBlogs(data.data);
+        }
     }, [data]);
 
     return (

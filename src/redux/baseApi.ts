@@ -19,5 +19,5 @@ export const baseApi = createApi({
     baseQuery: baseQuery,
     endpoints: () => ({}),
 
-    tagTypes: ['blogs', 'projects'],
+    tagTypes: ['blogs', 'projects','messages'],
 });
