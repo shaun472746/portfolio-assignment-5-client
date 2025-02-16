@@ -8,6 +8,7 @@ A personal portfolio and blog website using Next.js. This project contains dynam
 - install dependencies with `npm install`
 - make .env.example file to .env file
 - Add information in .env file
+- `npm run dev` to start the project
 
 
 ## Technologies
