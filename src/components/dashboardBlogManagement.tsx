@@ -20,14 +20,13 @@ import {
 } from 'antd';
 import '../../assets/root.css';
 import './assets/blogManagement.css';
-import { BlogPageProps, TBlog } from '@/types';
+import { TBlog } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
 import { Option } from 'antd/es/mentions';
 import { Toaster, toast } from 'sonner';
 import TiptapEditor from '@/utils/TipTapEditor';
-
 
 import {
     useCreateBlogMutation,
@@ -42,7 +41,6 @@ export default function BlogPage({
     blogData: { data: TBlog[] };
 }) {
     const [open, setOpen] = useState(false);
-    const [content, setContent] = useState("");
 
     const [form] = Form.useForm<Partial<TBlog>>();
     const [editMode, setEditMode] = useState<boolean>(false);
@@ -60,10 +58,9 @@ export default function BlogPage({
      * create new Or update blog methods
      */
     const { data, isLoading } = useGetBlogsQuery(undefined);
-    
+
     useEffect(() => {
-        if(data){
-            
+        if (data) {
             setBlogs(data);
         }
     }, [data]);
@@ -125,8 +122,6 @@ export default function BlogPage({
                 editMode == true ? '...blog updating' : '...blog creating';
             toastId = toast.loading(toastMessage, { id: toastId });
 
-
-
             /**
              * making json data ready
              */
@@ -185,8 +180,10 @@ export default function BlogPage({
     const updateBlogMethod = (rowData: Partial<TBlog>) => {
         setEditMode(true);
         form.setFieldsValue(rowData);
-        setContent(rowData.title as string);
-        setEditData((preValue)=> preValue=rowData);
+        setEditData((preValue) => {
+            preValue = rowData;
+            return preValue;
+        });
 
         showDrawer();
     };
@@ -228,7 +225,7 @@ export default function BlogPage({
             dataIndex: 'image',
             key: '3',
             render: (_, { image }) => (
-                <Image src={image} style={{ height: '80px' }} />
+                <Image src={image} style={{ height: '80px' }} alt="image" />
             ),
             width: '25%',
         },
@@ -256,14 +253,11 @@ export default function BlogPage({
             width: '25%',
         },
     ];
-    const handleEditorChange = (content:any) => {
-        setContent(content); // Update state with the new content
-        form.setFieldsValue({content:content});
-      };
+    const handleEditorChange = (content: string) => {
+        form.setFieldsValue({ content: content });
+    };
     return (
         <div>
-           
-
             <Toaster />
             <Button
                 className="default-btn-class"
@@ -318,9 +312,12 @@ export default function BlogPage({
                                     },
                                 ]}
                             >
-                                <TiptapEditor className="tip-tap-editor" onChange={handleEditorChange} value={editData} />
+                                <TiptapEditor
+                                    className="tip-tap-editor"
+                                    onChange={handleEditorChange}
+                                    value={editData?.content as string}
+                                />
                             </Form.Item>
-                            
                         </Col>
                         <Col span={24}>
                             <Form.Item<TBlog>
@@ -344,6 +341,7 @@ export default function BlogPage({
                                         <Image
                                             src={form.getFieldValue('image')}
                                             style={{ width: '150px' }}
+                                            alt="image"
                                         />
                                     )}
                                     <Upload {...props} fileList={fileList}>

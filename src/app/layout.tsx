@@ -1,4 +1,3 @@
-
 import '../../assets/root.css';
 import NavBar from '@/components/navigationBar';
 import Providers from '@/redux/providerComponent';
@@ -6,11 +5,6 @@ import { getServerSession, Session } from 'next-auth';
 import { authOptions } from '@/utils/authOptions';
 import { Suspense } from 'react';
 import Loading from './loading';
-
-
-
-
-
 
 export default async function RootLayout({
     children,
@@ -27,7 +21,7 @@ export default async function RootLayout({
                         <div className="default-margin-body">
                             <NavBar session={session} />
                         </div>
-                      
+
                         {children}
                     </Suspense>
                 </Providers>

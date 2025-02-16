@@ -1,12 +1,11 @@
 'use client';
 import '@/../assets/root.css';
-import styles from '@/app/contact/contact.module.css'
+import styles from '@/app/contact/contact.module.css';
 
 import { Button, Card, Col, Divider, Form, FormProps, Input, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { Toaster, toast } from 'sonner';
 import { useCreateMessageMutation } from '@/redux/features/messages/message.api';
-
 
 type FieldType = {
     email?: string;
@@ -14,12 +13,11 @@ type FieldType = {
     message?: string;
 };
 
-export default function ContactPage(){
+export default function ContactPage() {
     let toastId: number | string = 0;
     const [form] = Form.useForm<Partial<FieldType>>();
     const [createMessage] = useCreateMessageMutation();
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        
         try {
             toastId = toast.loading('...message sending', { id: toastId });
 

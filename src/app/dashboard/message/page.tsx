@@ -1,6 +1,6 @@
 import MessagePage from '@/components/dashboardMessageManagement';
 import '../../../../assets/root.css';
-import config from "@/config"
+import config from '@/config';
 import { Metadata } from 'next';
 
 async function getData() {
@@ -14,7 +14,6 @@ export const metadata: Metadata = {
     title: 'Dashboard-Message',
     description: 'Overview',
 };
-
 
 export default async function MessageManagement() {
     const messageData = await getData();

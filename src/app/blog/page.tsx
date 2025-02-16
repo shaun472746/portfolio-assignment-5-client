@@ -3,20 +3,8 @@ import '../../../assets/root.css';
 import styles from './about.module.css';
 import BlogPosts from '@/components/blogPosts';
 
-import {
-    Button,
-    Col,
-    Flex,
-    Row,
-    Image,
-    Card,
-    Progress,
-    Divider,
-    ConfigProvider,
-    theme,
-} from 'antd';
+import { Divider } from 'antd';
 import { Metadata } from 'next';
-
 
 async function getData() {
     const res = await fetch(`${config.api_url}/blog`, {
@@ -40,23 +28,21 @@ export async function generateStaticParams() {
     }));
 }
 
-
 export default async function Blog({
     params,
-  }: {
-    params: Promise<{ id: string }>
-  }) {
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = await params;
+    console.log(id);
+    const { data: blogData } = await getData();
 
-    const {id} = await params;
-    const {data:blogData} = await getData();
-
-    
     return (
         <div className="default-margin-body">
             <Divider orientation="left" className={styles.dividerStyle}>
                 <h3 className={styles.dividerHeader}>Blog</h3>
             </Divider>
-            <BlogPosts blogData={blogData}/>
+            <BlogPosts blogData={blogData} />
         </div>
     );
 }

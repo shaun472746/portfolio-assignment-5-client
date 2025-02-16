@@ -6,7 +6,6 @@ import ProjectItem from '@/components/projectItem';
 import { Divider } from 'antd';
 import { Metadata } from 'next';
 
-
 async function getData() {
     const res = await fetch(`${config.api_url}/project`, {
         cache: 'force-cache',
@@ -19,18 +18,15 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
-
 export default async function Project() {
-
-    const {data:projectData} = await getData();
-    
+    const { data: projectData } = await getData();
 
     return (
         <div className="default-margin-body">
             <Divider orientation="left" className={styles.dividerStyle}>
                 <h3 className={styles.dividerHeader}>Projects</h3>
             </Divider>
-            <ProjectItem projects={projectData}/>
+            <ProjectItem projects={projectData} />
         </div>
     );
 }

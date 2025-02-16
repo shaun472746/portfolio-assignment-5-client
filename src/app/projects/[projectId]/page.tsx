@@ -1,14 +1,12 @@
-
-
 import Link from 'next/link';
 import '../../../../assets/root.css';
 import styles from './projectDetail.module.css';
 
-import { Button, Card, Col, ConfigProvider, Divider, Image, Row } from 'antd';
+import { Col, Divider, Image, Row } from 'antd';
 import config from '@/config';
 import { Metadata } from 'next';
 
-async function getData(id:string | undefined | string[]) {
+async function getData(id: string | undefined | string[]) {
     const res = await fetch(`${config.api_url}/project/${id}`, {
         cache: 'force-cache',
     });
@@ -16,22 +14,17 @@ async function getData(id:string | undefined | string[]) {
 }
 
 type ProjectType = {
-    params:{projectId: string},
-}
+    params: { projectId: string };
+};
 
 export const metadata: Metadata = {
     title: 'Project Detail',
     description: 'Overview',
 };
 
-
-export default async function ProjectDetail({params}:ProjectType) {
-
-  
+export default async function ProjectDetail({ params }: ProjectType) {
     const { projectId } = await params;
-    const {data:projectData} = await getData(projectId);
-
-  
+    const { data: projectData } = await getData(projectId);
 
     return (
         <div className="default-margin-body">
@@ -60,9 +53,7 @@ export default async function ProjectDetail({params}:ProjectType) {
                     className="gutter-row"
                 >
                     <h2>{projectData.title}</h2>
-                    <Link href={'#'}>
-                        Project Link To Visit
-                    </Link>
+                    <Link href={'#'}>Project Link To Visit</Link>
                     <p className={styles.projectDescription}>
                         {projectData?.description}
                     </p>

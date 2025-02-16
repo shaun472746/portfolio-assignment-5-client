@@ -9,11 +9,9 @@ import {
     Image,
     Input,
     Row,
-    Select,
     Space,
     Table,
     TableProps,
-    Tag,
     Upload,
     UploadFile,
     UploadProps,
@@ -24,7 +22,7 @@ import { TProject } from '@/types';
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
-import { Option } from 'antd/es/mentions';
+
 import { Toaster, toast } from 'sonner';
 
 import {
@@ -205,7 +203,7 @@ export default function ProjectPage({
             dataIndex: 'image',
             key: '2',
             render: (_, { image }) => (
-                <Image src={image} style={{ height: '80px' }} />
+                <Image src={image} style={{ height: '80px' }} alt="image" />
             ),
             width: '33%',
         },
@@ -332,6 +330,7 @@ export default function ProjectPage({
                                         <Image
                                             src={form.getFieldValue('image')}
                                             style={{ width: '150px' }}
+                                            alt="image"
                                         />
                                     )}
                                     <Upload {...props} fileList={fileList}>

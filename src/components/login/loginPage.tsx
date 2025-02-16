@@ -1,7 +1,7 @@
 'use client';
 
 import { GithubFilled, GoogleCircleFilled } from '@ant-design/icons';
-import { Button, Card, Form, FormProps, Input } from 'antd';
+import { Button, Card, Form, FormProps } from 'antd';
 import { signIn } from 'next-auth/react';
 import config from '@/config';
 
@@ -10,27 +10,9 @@ type FieldType = {
     password?: string;
 };
 
-
-
-
-export default function LoginPageComponent(){
-    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        try {
-            
-            // const userInfo = {
-            //     email: values.email,
-            //     password: values.password,
-            // };
-            // const res = await login(userInfo).unwrap();
-
-            // toast.success(res.data.message, { id: toastId });
-            // const user = verifyToken(res.data.token) as TUser;
-            // dispatch(setUser({ user: user, token: res.data.token }));
-            // navigate(`/dashboard`);
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-            // toast.error(err.data?.message, { id: toastId });
-        }
+export default function LoginPageComponent() {
+    const onFinish: FormProps<FieldType>['onFinish'] = async () => {
+        console.log('finish form');
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (

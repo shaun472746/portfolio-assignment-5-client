@@ -6,7 +6,6 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
-
 export default function Project() {
     return (
         <div>

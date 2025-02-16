@@ -1,12 +1,12 @@
-import LoginPageComponent from "@/components/login/loginPage";
-import { Metadata } from "next";
+import LoginPageComponent from '@/components/login/loginPage';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Login',
     description: 'Overview',
 };
 const LoginPage: React.FC = () => {
-    return (<LoginPageComponent />)
+    return <LoginPageComponent />;
 };
 
 export default LoginPage;

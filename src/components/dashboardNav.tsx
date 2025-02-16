@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Menu, MenuProps, ConfigProvider, theme } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { BlogPageProps } from '@/types';
 
@@ -42,6 +42,7 @@ const createRouteObject = () => {
 createRouteObject();
 
 export default function DashboardNav({ session }: BlogPageProps) {
+    console.log(session);
     const router = useRouter();
 
     const onClick: MenuProps['onClick'] = (e) => {

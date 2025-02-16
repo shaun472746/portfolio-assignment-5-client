@@ -2,7 +2,7 @@ import BlogPage from '@/components/dashboardBlogManagement';
 
 import { authOptions } from '@/utils/authOptions';
 import { getServerSession, Session } from 'next-auth';
-import config from "@/config"
+import config from '@/config';
 import { Metadata } from 'next';
 
 async function getData() {
@@ -17,9 +17,9 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
-
 export default async function BlogManagement() {
     const session: Session | null = await getServerSession(authOptions);
+    console.log(session);
     const blogData = await getData();
     return (
         <div>

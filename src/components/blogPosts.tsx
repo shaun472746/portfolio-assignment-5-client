@@ -12,24 +12,20 @@ type BlogData = {
     content: string;
     image: string;
     category: string;
-}
+};
 
-const BlogPosts = ({blogData}:{blogData:BlogData[]}) => {
-
-    const [blogs, setBlogs] = useState<BlogData[] >(blogData);
-const { data, isLoading } = useGetBlogsQuery(undefined);
-
+const BlogPosts = ({ blogData }: { blogData: BlogData[] }) => {
+    const [blogs, setBlogs] = useState<BlogData[]>(blogData);
+    const { data } = useGetBlogsQuery(undefined);
 
     useEffect(() => {
-        if(data && data.data.length>0){
+        if (data && data.data.length > 0) {
             setBlogs(data.data);
         }
     }, [data]);
 
     return (
         <div>
-            
-
             {blogs.map((post) => (
                 <div key={post._id} style={{ marginBottom: '2rem' }}>
                     <h4>{post?.title}</h4>
@@ -48,7 +44,9 @@ const { data, isLoading } = useGetBlogsQuery(undefined);
                                         {String(children).replace(/\n$/, '')}
                                     </SyntaxHighlighter>
                                 ) : (
-                                    <code className={className}>{children}</code>
+                                    <code className={className}>
+                                        {children}
+                                    </code>
                                 );
                             },
                         }}
