@@ -2,6 +2,8 @@
 
 A personal portfolio and blog website using Next.js. This project contains dynamic routing, API integration, authentication, state management.
 
+Live Deployed Link: 
+
 # How to setup the project locally
 - clone from github
 - move to the project directory
