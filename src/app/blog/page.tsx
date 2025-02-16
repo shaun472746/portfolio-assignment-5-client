@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
-// Generate static paths for each blog post
+// Generate static paths for each blog
 export async function generateStaticParams() {
     const blogData = await getData(); // Fetch blog data
 
