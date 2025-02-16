@@ -2,7 +2,7 @@
 
 A personal portfolio and blog website using Next.js. This project contains dynamic routing, API integration, authentication, state management.
 
-Live Deployed Link: 
+Live Deployed Link: [https://assignment-5-next-js-client.vercel.app/](https://assignment-5-next-js-client.vercel.app/)
 
 # How to setup the project locally
 - clone from github

@@ -58,7 +58,7 @@ export default function LoginPageComponent() {
                                 htmlType="submit"
                                 onClick={() =>
                                     signIn('github', {
-                                        callbackUrl: `http://localhost:3000/`,
+                                        callbackUrl: config.client_url,
                                     })
                                 }
                             >
