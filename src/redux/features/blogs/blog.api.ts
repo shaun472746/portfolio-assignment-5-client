@@ -8,7 +8,7 @@ const blogApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: formData,
             }),
-            invalidatesTags: ['projects'],
+            invalidatesTags: ['blogs'],
         }),
         getBlogs: builder.query({
             query: () => ({
