@@ -13,16 +13,16 @@ async function getData(id: string | undefined | string[]) {
     return res.json();
 }
 
-type ProjectType = {
-    params: { projectId: string };
-};
-
 export const metadata: Metadata = {
     title: 'Project Detail',
     description: 'Overview',
 };
 
-export default async function ProjectDetail({ params }: ProjectType) {
+export default async function ProjectDetail({
+    params,
+}: {
+    params: Promise<{ projectId: string }>;
+}) {
     const { projectId } = await params;
     const { data: projectData } = await getData(projectId);
 

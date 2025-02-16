@@ -17,7 +17,7 @@ const eslintConfig = [
     ),
     {
         rules: {
-            'prettier/prettier': 'warn', // Show warnings for prettier violations
+            // 'prettier/prettier': 'warn', // Show warnings for prettier violations
         },
     },
 ];
