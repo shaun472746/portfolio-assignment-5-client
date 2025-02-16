@@ -30,10 +30,24 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
+// Generate static paths for each blog post
+export async function generateStaticParams() {
+    const blogData = await getData(); // Fetch blog data
 
-export default async function Blog() {
+    // Assuming each blog post has a unique `id` or `slug`
+    return blogData.data.map((post: { id: string }) => ({
+        id: post.id, // or `slug: post.slug` if using slugs
+    }));
+}
 
 
+export default async function Blog({
+    params,
+  }: {
+    params: Promise<{ id: string }>
+  }) {
+
+    const {id} = await params;
     const {data:blogData} = await getData();
 
     
