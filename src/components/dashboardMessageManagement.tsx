@@ -3,7 +3,7 @@
 import { Button, Col, Drawer, Row, Space, Table, TableProps } from 'antd';
 import '../../assets/root.css';
 import './assets/messageManagement.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Toaster, toast } from 'sonner';
 
 import { useGetMessagesQuery } from '@/redux/features/messages/message.api';
@@ -20,8 +20,17 @@ export default function MessagePage({
 }) {
     const [open, setOpen] = useState(false);
     const [detailData, setDetailData] = useState<MessageType>({});
+    const [allMessages,setAllMessages] = useState<MessageType[]>(messageData);
 
     let toastId: number | string = 0;
+
+    const {data} = useGetMessagesQuery(undefined);
+
+    useEffect(()=>{
+        if(data) {
+            setAllMessages(data.data);
+        }
+    },[data]);
 
     /**
      * Table section methods and list
@@ -88,7 +97,7 @@ export default function MessagePage({
             <Table<Partial<MessageType>>
                 className="message-table"
                 columns={columns}
-                dataSource={messageData || ([] as readonly MessageType[])}
+                dataSource={allMessages || ([] as readonly MessageType[])}
                 rowKey="_id"
             />
             <Drawer
