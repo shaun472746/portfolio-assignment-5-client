@@ -20,6 +20,17 @@ export const metadata: Metadata = {
     description: 'Overview',
 };
 
+export async function generateStaticParams() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
+        cache: 'force-cache',
+    });
+    const { data: projects } = await res.json();
+
+    return projects.map((project: { id: string }) => ({
+        projectId: project.id.toString(),
+    }));
+}
+
 export default async function ProjectDetail({
     params,
 }: {
