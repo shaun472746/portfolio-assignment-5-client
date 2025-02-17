@@ -5,6 +5,7 @@ import styles from './projectDetail.module.css';
 import { Col, Divider, Image, Row } from 'antd';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-static';
 async function getData(id: string | undefined | string[]) {
     const res = await fetch(
         `https://assignment-5-server.onrender.com/api/project/${id}`,

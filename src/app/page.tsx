@@ -15,6 +15,8 @@ import {
 import SkillItem from '@/components/home/skillItem';
 import { TProject } from '@/types';
 
+export const dynamic = 'force-static';
+
 async function getData() {
     const project = await fetch(
         `https://assignment-5-server.onrender.com/api/project`,

@@ -5,6 +5,7 @@ import BlogPosts from '@/components/blogPosts';
 import { Divider } from 'antd';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-static';
 async function getData() {
     const res = await fetch(
         `https://assignment-5-server.onrender.com/api/blog`,
