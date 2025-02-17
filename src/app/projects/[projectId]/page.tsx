@@ -9,7 +9,7 @@ async function getData(id: string | undefined | string[]) {
     const res = await fetch(
         `https://assignment-5-server.onrender.com/api/project/${id}`,
         {
-            cache: 'force-cache',
+            cache: 'no-store',
         }
     );
     return res.json();

@@ -9,7 +9,7 @@ async function getData() {
     const res = await fetch(
         `https://assignment-5-server.onrender.com/api/project`,
         {
-            cache: 'force-cache',
+            cache: 'no-store',
             next: { revalidate: 0 },
         }
     );
