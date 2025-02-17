@@ -6,10 +6,13 @@ import { Divider } from 'antd';
 import { Metadata } from 'next';
 
 async function getData() {
-    const res = await fetch(`https://assignment-5-server.onrender.com/blog`, {
-        cache: 'force-cache',
-        next: { revalidate: 0 },
-    });
+    const res = await fetch(
+        `https://assignment-5-server.onrender.com/api/blog`,
+        {
+            cache: 'force-cache',
+            next: { revalidate: 0 },
+        }
+    );
     return res.json();
 }
 

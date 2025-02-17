@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 
 async function getData(id: string | undefined | string[]) {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/project/${id}`,
+        `https://assignment-5-server.onrender.com/api/project/${id}`,
         {
             cache: 'force-cache',
         }
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export async function generateStaticParams() {
     const res = await fetch(
-        `https://assignment-5-server.onrender.com/project`,
+        `https://assignment-5-server.onrender.com/api/project`,
         {
             cache: 'force-cache',
             next: { revalidate: 0 },

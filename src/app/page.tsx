@@ -17,7 +17,7 @@ import { TProject } from '@/types';
 
 async function getData() {
     const project = await fetch(
-        `https://assignment-5-server.onrender.com/project`,
+        `https://assignment-5-server.onrender.com/api/project`,
         {
             cache: 'force-cache',
             next: { revalidate: 0 },
