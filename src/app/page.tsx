@@ -18,6 +18,7 @@ import { TProject } from '@/types';
 async function getData() {
     const project = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
         cache: 'force-cache',
+        next: { revalidate: 0 },
     });
     return project.json();
 }
