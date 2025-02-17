@@ -3,6 +3,7 @@ import ProjectPage from '@/components/dashboardProjectManagement';
 
 import { Metadata } from 'next';
 
+export const maxDuration = 35;
 async function getData() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
         cache: 'force-cache',

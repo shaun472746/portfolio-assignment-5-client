@@ -3,6 +3,7 @@ import '../../../../assets/root.css';
 
 import { Metadata } from 'next';
 
+export const maxDuration = 35;
 async function getData() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/message`, {
         cache: 'force-cache',

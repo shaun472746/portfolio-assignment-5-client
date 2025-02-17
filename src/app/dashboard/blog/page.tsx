@@ -4,6 +4,8 @@ import { authOptions } from '@/utils/authOptions';
 import { getServerSession, Session } from 'next-auth';
 import { Metadata } from 'next';
 
+export const maxDuration = 35;
+
 async function getData() {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`, {
         cache: 'force-cache',
