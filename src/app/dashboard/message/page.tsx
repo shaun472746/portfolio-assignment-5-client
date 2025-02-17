@@ -1,10 +1,10 @@
 import MessagePage from '@/components/dashboardMessageManagement';
 import '../../../../assets/root.css';
-import config from '@/config';
+
 import { Metadata } from 'next';
 
 async function getData() {
-    const res = await fetch(`${config.api_url}/message`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/message`, {
         cache: 'force-cache',
     });
     return res.json();

@@ -13,11 +13,10 @@ import {
     ConfigProvider,
 } from 'antd';
 import SkillItem from '@/components/home/skillItem';
-import config from '@/config';
 import { TProject } from '@/types';
 
 async function getData() {
-    const project = await fetch(`${config.api_url}/project`, {
+    const project = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
         cache: 'force-cache',
     });
     return project.json();

@@ -1,4 +1,3 @@
-import config from '@/config';
 import '../../../assets/root.css';
 import styles from './about.module.css';
 import BlogPosts from '@/components/blogPosts';
@@ -7,7 +6,7 @@ import { Divider } from 'antd';
 import { Metadata } from 'next';
 
 async function getData() {
-    const res = await fetch(`${config.api_url}/blog`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`, {
         cache: 'force-cache',
     });
     return res.json();

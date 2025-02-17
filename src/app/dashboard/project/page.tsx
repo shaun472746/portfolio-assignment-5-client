@@ -1,10 +1,10 @@
 import '../../../../assets/root.css';
 import ProjectPage from '@/components/dashboardProjectManagement';
-import config from '@/config';
+
 import { Metadata } from 'next';
 
 async function getData() {
-    const res = await fetch(`${config.api_url}/project`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
         cache: 'force-cache',
     });
     return res.json();

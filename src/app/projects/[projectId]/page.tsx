@@ -3,13 +3,15 @@ import '../../../../assets/root.css';
 import styles from './projectDetail.module.css';
 
 import { Col, Divider, Image, Row } from 'antd';
-import config from '@/config';
 import { Metadata } from 'next';
 
 async function getData(id: string | undefined | string[]) {
-    const res = await fetch(`${config.api_url}/project/${id}`, {
-        cache: 'force-cache',
-    });
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/project/${id}`,
+        {
+            cache: 'force-cache',
+        }
+    );
     return res.json();
 }
 
