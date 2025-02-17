@@ -26,8 +26,8 @@ export async function generateStaticParams() {
     });
     const { data: projects } = await res.json();
 
-    return projects.map((project: { id: string }) => ({
-        projectId: project.id.toString(),
+    return projects.map((project: { _id: string }) => ({
+        projectId: project._id.toString(),
     }));
 }
 
