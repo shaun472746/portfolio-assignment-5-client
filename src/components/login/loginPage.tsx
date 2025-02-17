@@ -43,11 +43,7 @@ export default function LoginPageComponent() {
                             <Button
                                 className="default-btn-class"
                                 htmlType="submit"
-                                onClick={() =>
-                                    signIn('google', {
-                                        callbackUrl: config.client_url,
-                                    })
-                                }
+                                onClick={() => signIn('google')}
                             >
                                 <GoogleCircleFilled /> Login With Google
                             </Button>

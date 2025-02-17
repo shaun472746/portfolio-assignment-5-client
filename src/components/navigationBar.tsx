@@ -4,7 +4,7 @@ import { Menu, MenuProps, ConfigProvider, theme } from 'antd';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { BlogPageProps } from '@/types';
+// import { BlogPageProps } from '@/types';
 import { signOut } from 'next-auth/react';
 import {
     authorizedRoutes,
@@ -14,8 +14,10 @@ import {
     newAuthorizedPaths,
     newLoginPaths,
 } from '@/utils/navRoutes';
+import { useSession } from 'next-auth/react';
 
-export default function NavBar({ session }: BlogPageProps) {
+export default function NavBar() {
+    const { data: session } = useSession();
     const router = useRouter();
     const [routes, setRoutes] = useState<MenuItem[]>([]);
     const [routeObject, setRouteObject] = useState<Record<string, string>>({});

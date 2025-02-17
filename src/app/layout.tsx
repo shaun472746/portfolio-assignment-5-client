@@ -1,8 +1,8 @@
 import '../../assets/root.css';
 import NavBar from '@/components/navigationBar';
 import Providers from '@/redux/providerComponent';
-import { getServerSession, Session } from 'next-auth';
-import { authOptions } from '@/utils/authOptions';
+// import { getServerSession, Session } from 'next-auth';
+// import { authOptions } from '@/utils/authOptions';
 import { Suspense } from 'react';
 import Loading from './loading';
 
@@ -11,7 +11,7 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session: Session | null = await getServerSession(authOptions);
+    // const session: Session | null = await getServerSession(authOptions);
 
     return (
         <html lang="en">
@@ -19,7 +19,7 @@ export default async function RootLayout({
                 <Providers>
                     <Suspense fallback={<Loading />}>
                         <div className="default-margin-body">
-                            <NavBar session={session} />
+                            <NavBar />
                         </div>
 
                         {children}

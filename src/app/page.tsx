@@ -18,13 +18,10 @@ import { TProject } from '@/types';
 export const dynamic = 'force-static';
 
 async function getData() {
-    const project = await fetch(
-        `https://assignment-5-server.onrender.com/api/project`,
-        {
-            cache: 'no-store',
-            next: { revalidate: 0 },
-        }
-    );
+    const project = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
+        cache: 'force-cache',
+        next: { revalidate: 0 },
+    });
     return project.json();
 }
 

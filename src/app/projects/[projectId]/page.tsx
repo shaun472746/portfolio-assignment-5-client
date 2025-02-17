@@ -8,9 +8,9 @@ import { Metadata } from 'next';
 export const dynamic = 'force-static';
 async function getData(id: string | undefined | string[]) {
     const res = await fetch(
-        `https://assignment-5-server.onrender.com/api/project/${id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/project/${id}`,
         {
-            cache: 'no-store',
+            cache: 'force-cache',
         }
     );
     return res.json();
@@ -22,13 +22,10 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-    const res = await fetch(
-        `https://assignment-5-server.onrender.com/api/project`,
-        {
-            cache: 'force-cache',
-            next: { revalidate: 0 },
-        }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
+        cache: 'force-cache',
+        next: { revalidate: 0 },
+    });
     const { data: projects } = await res.json();
 
     return projects.map((project: { _id: string }) => ({
