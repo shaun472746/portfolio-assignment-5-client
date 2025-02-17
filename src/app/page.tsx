@@ -16,10 +16,13 @@ import SkillItem from '@/components/home/skillItem';
 import { TProject } from '@/types';
 
 async function getData() {
-    const project = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
-        cache: 'force-cache',
-        next: { revalidate: 0 },
-    });
+    const project = await fetch(
+        `https://assignment-5-server.onrender.com/project`,
+        {
+            cache: 'force-cache',
+            next: { revalidate: 0 },
+        }
+    );
     return project.json();
 }
 

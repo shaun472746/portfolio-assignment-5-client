@@ -6,7 +6,7 @@ import { Divider } from 'antd';
 import { Metadata } from 'next';
 
 async function getData() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`, {
+    const res = await fetch(`https://assignment-5-server.onrender.com/blog`, {
         cache: 'force-cache',
         next: { revalidate: 0 },
     });

@@ -21,10 +21,13 @@ export const metadata: Metadata = {
 };
 
 export async function generateStaticParams() {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
-        cache: 'force-cache',
-        next: { revalidate: 0 },
-    });
+    const res = await fetch(
+        `https://assignment-5-server.onrender.com/project`,
+        {
+            cache: 'force-cache',
+            next: { revalidate: 0 },
+        }
+    );
     const { data: projects } = await res.json();
 
     return projects.map((project: { _id: string }) => ({
