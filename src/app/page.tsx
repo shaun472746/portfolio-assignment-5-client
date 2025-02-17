@@ -22,12 +22,26 @@ async function getData() {
     return project.json();
 }
 
+export async function generateStaticParams() {
+    const projectData = await getData();
+
+    return projectData.data.map((post: { _id: string }) => ({
+        id: post._id.toString(), // Ensure it's a string
+    }));
+}
+
 export const metadata: Metadata = {
     title: 'Home',
     description: 'Overview',
 };
 
-export default async function Home() {
+export default async function Home({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = await params;
+    console.log(id);
     const skills = [
         {
             id: 1,

@@ -21,13 +21,19 @@ export const metadata: Metadata = {
 export async function generateStaticParams() {
     const blogData = await getData();
 
-    return blogData.data.map((post: { id: string }) => ({
-        id: post.id.toString(), // Ensure it's a string
+    return blogData.data.map((post: { _id: string }) => ({
+        id: post._id.toString(), // Ensure it's a string
     }));
 }
 
-export default async function Blog() {
+export default async function Blog({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
     const { data: blogData } = await getData();
+    const { id } = await params;
+    console.log(id);
 
     return (
         <div className="default-margin-body">
