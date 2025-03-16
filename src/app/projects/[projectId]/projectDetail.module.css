@@ -1,0 +1,18 @@
+.cardImage {
+    height: 350px;
+    overflow: hidden;
+}
+
+/* divider style starts */
+.dividerStyle {
+    margin-top: 15px !important;
+}
+.dividerHeader {
+    font-size: var(--divider-font-size);
+    padding: 5px;
+    color: var(--default-primary-color);
+}
+/* divider style ends */
+.projectDescription {
+    color: var(--default-paragraph-color);
+}
